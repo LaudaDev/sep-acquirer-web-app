@@ -1,0 +1,18 @@
+.i-tooltip-blue {
+  background-color: #e5f5ff;
+}
+.i-tooltip-blue, .i-tooltip-blue:before {
+  border-color: #cbd7e3;
+}
+.i-tooltip {
+  display: inline-block;
+  position: relative;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: #888;
+}
+.cardPicture {
+  width: 100px;
+  height: 50px;
+}
