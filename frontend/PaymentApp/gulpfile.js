@@ -71,4 +71,4 @@ gulp.task('watch', function() {
 	gulp.watch('app/**/*.js', ['lint'/*, 'scripts'*/]);
 });
 
-gulp.task('default', ['lint', /*'vendorScripts', 'scripts', */'watch', 'minCss', /*'sass:watch'*/, 'webserver']);
+gulp.task('default', ['lint', /*'vendorScripts', 'scripts', */'watch', 'minCss', /*'sass:watch'*/ 'webserver']);
