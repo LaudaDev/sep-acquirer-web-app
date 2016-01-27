@@ -1,5 +1,6 @@
 package app.model.transferData;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ public class MerchantPaymentRequest {
 
 	@NotNull(message = "error.amount.notnull")
 	@Min(1)
-	private double amount;
+	private BigDecimal amount;
 
 	@NotNull(message = "error.merchantOrderId.notnull")
 	private int merchantOrderId;
@@ -38,7 +39,7 @@ public class MerchantPaymentRequest {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MerchantPaymentRequest(String merchantId, String merchatPassword, double amount, int merchantOrderId,
+	public MerchantPaymentRequest(String merchantId, String merchatPassword, BigDecimal amount, int merchantOrderId,
 			Date merchantTimestamp, URL errorUrl) {
 		super();
 		this.merchantId = merchantId;
@@ -65,11 +66,11 @@ public class MerchantPaymentRequest {
 		this.merchatPassword = merchatPassword;
 	}
 
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
