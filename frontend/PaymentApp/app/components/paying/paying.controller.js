@@ -5,11 +5,13 @@
     .module('paying-app.paying')
     .controller('PayingController', PayingController);
 
-  PayingController.$inject = ['$window', '$location','price'];
+  PayingController.$inject = ['$window', '$location','transaction'];
 
-  function PayingController($window, $location,price) {
+  function PayingController($window, $location,transaction) {
     var pc = this;
-    pc.price = price;
+  
+    console.log(transaction);
+    pc.price = transaction.amount;
     console.log(pc.price);
     pc.showTooltip = false;
     pc.howerOwer = howerOwer;

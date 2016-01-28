@@ -16,9 +16,11 @@ import app.model.Transaction;
 import app.model.transferData.MerchantPaymentRequest;
 import app.model.transferData.PaymentCardDetails;
 import app.model.transferData.PaymentInstructions;
+import app.model.transferData.SharingAmount;
 import app.model.transferData.TransactionAuthenticationRequest;
 import app.model.transferData.TransactionResponseForMerchant;
 import app.model.transferData.TransactionResponseFromAcquirer;
+import app.repository.TransactionRepository;
 import app.services.exceptions.BadRequestException;
 import app.services.exceptions.CustomRestClientException;
 
@@ -27,6 +29,9 @@ public class PaymentService {
 
 	@Autowired
 	private TransactionService transactionService;
+
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	@Autowired
 	private MerchantRegisterService merchantService;
@@ -57,7 +62,7 @@ public class PaymentService {
 
 		logger.info("Merchant payment request");
 		logger.info(request.toString());
-		
+
 		instructions = new PaymentInstructions();
 		paymentId = RandomGenerator.generatePaymentId();
 
@@ -100,14 +105,13 @@ public class PaymentService {
 
 		logger.info("Bank response - transaction result");
 		logger.info(bankResponse.toString());
-		
+
 		transaction = saveTransactionResult(bankResponse);
-		
+
 		return sendTransactionResults(transaction);
 	}
 
-	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse)
-	{
+	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse) {
 		Transaction transaction = transactionService.findByOrderIdAndTimestamp(bankResponse.getAcquirerOrderId(),
 				bankResponse.getAcquirerTimestamp());
 		transaction.setCardAuthorized(bankResponse.isCardAuthorized());
@@ -117,8 +121,7 @@ public class PaymentService {
 		transaction.setIssuerTimestamp(bankResponse.getIssuerTimestamp());
 		return transactionService.update(transaction);
 	}
-	
-	
+
 	public TransactionResponseFromAcquirer postForTransactionResult(
 			TransactionAuthenticationRequest transactionAuthRequest) {
 		TransactionResponseFromAcquirer bankResponse = null;
@@ -133,7 +136,7 @@ public class PaymentService {
 	}
 
 	public URI sendTransactionResults(Transaction transaction) {
-		
+
 		TransactionResponseForMerchant transactionResults = new TransactionResponseForMerchant();
 		transactionResults.setCardAuthorized(transaction.isCardAuthorized());
 		transactionResults.setCardAuthenticated(transaction.isCardAuthenticated());
@@ -145,10 +148,9 @@ public class PaymentService {
 
 		logger.info("Transaction result for merchant");
 		logger.info(transactionResults.toString());
-		
+
 		URI merchantResponse = restTemplate.postForLocation(Consts.MERCHANT_URL.toString(), transactionResults);
-		if(merchantResponse == null)
-		{
+		if (merchantResponse == null) {
 			throw new CustomRestClientException(
 					"There was an error communicating with the merchant server.URL is null.");
 
@@ -158,10 +160,14 @@ public class PaymentService {
 		return merchantResponse;
 
 	}
-	
-	
-	public Double getAmountToPay(int paymentId)
-	{
-		return transactionService.getAmountToPay(paymentId);
+
+	public SharingAmount getAmountToPay(int paymentId) {
+		SharingAmount amount = new SharingAmount(transactionService.getAmountToPay(paymentId));
+		return amount;
+	}
+
+	public Transaction getTransaction(int paymentId) {
+
+		return transactionRepository.findByPaymentId(paymentId);
 	}
 }

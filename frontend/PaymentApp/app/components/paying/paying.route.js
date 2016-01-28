@@ -28,7 +28,7 @@
 				views: {
 					'content@': {
 						resolve: {
-							price: getPrice,
+							transaction: getTransaction,
 						},
 						templateUrl: 'app/components/paying/paying.html',
 						controller: 'PayingController',
@@ -37,9 +37,10 @@
 				}
 			});
 
-			getPrice.$inject = ['payingService','$stateParams'];
-			function getPrice(payingService,$stateParams) {
-      	return payingService.get({paymentID: $stateParams.paymentID}).$promise;
+			getTransaction.$inject = ['payingService','$stateParams'];
+			function getTransaction(payingService,$stateParams) {
+			
+      	 return payingService.get({paymentID: $stateParams.paymentID}).$promise;
     }
 	}
 })();

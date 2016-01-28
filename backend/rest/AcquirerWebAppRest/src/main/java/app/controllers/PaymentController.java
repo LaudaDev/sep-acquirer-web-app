@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import app.model.transferData.MerchantPaymentRequest;
 import app.model.transferData.PaymentCardDetails;
 import app.model.transferData.PaymentInstructions;
+import app.model.transferData.SharingAmount;
 import app.services.PaymentService;
 
 @Controller
@@ -52,7 +53,7 @@ public class PaymentController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/{paymentID}")
 	@ResponseBody
-	public Double getAmountToPay(@PathVariable("paymentID") Integer paymentID)
+	public SharingAmount getAmountToPay(@PathVariable("paymentID") Integer paymentID)
 	{
 		return paymentService.getAmountToPay(paymentID);
 	}
