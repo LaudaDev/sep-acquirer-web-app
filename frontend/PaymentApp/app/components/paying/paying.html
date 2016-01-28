@@ -18,14 +18,10 @@
         </p>
       </div>
       <div class="row">
-        <div class="col-md-1">
-        </div>
         <div class="col-md-2">
-          <div class="row">
-
-          </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-md-7">
           <div class="row">
             <div class="col-md-12">
               <form novalidate class="state-form form-horizontal" name="pc.stateForm">
@@ -34,7 +30,7 @@
                     {{'MAIN.CARD_TYPE'|translate}}
                   </label>
                   <div class="col-sm-5">
-                    <div class="btn-group" >
+                    <div class="btn-group">
                       <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'master'">MasterCard</label>
                       <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'visa'">VisaElectron</label>
                       <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'maestro'">Maestro</label>
@@ -51,7 +47,7 @@
                   </label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" name="inputNumber"  ng-model="pc.payment.cardNumber" placeholder="{{'MAIN.CARD_NUM'|translate}}" required/>
+                    <input type="text" class="form-control" name="inputNumber" ng-model="pc.payment.cardNumber" placeholder="{{'MAIN.CARD_NUM'|translate}}" required/>
                     <div ng-messages="pc.stateForm.inputNumber.$error" ng-show="pc.stateForm.inputNumber.$touched">
                       <div ng-messages-include="./app/shared/messages.html"></div>
                     </div>
@@ -64,7 +60,7 @@
                   </label>
 
                   <div class="col-sm-3">
-                    <input type="text" class="form-control" name="inputDate"  ng-model="pc.payment.expirationMonth" placeholder="MM ({{'MAIN.EXAMPLE'|translate}}08)" required ng-minlength="2" ng-maxlength="2" ng-pattern="/^(0?[1-9]|1[012])$/"/>
+                    <input type="text" class="form-control" name="inputDate" ng-model="pc.payment.expirationMonth" placeholder="MM ({{'MAIN.EXAMPLE'|translate}}08)" required ng-minlength="2" ng-maxlength="2" ng-pattern="/^(0?[1-9]|1[012])$/" />
                   </div>
 
                   <div class="col-sm-1">
@@ -72,7 +68,7 @@
                   </div>
 
                   <div class="col-sm-3">
-                    <input type="text" class="form-control"  name="inputDate" ng-model="pc.payment.expirationYear" placeholder="{{'MAIN.YY'|translate}}" required ng-minlength="2" ng-maxlength="2"/>
+                    <input type="text" class="form-control" name="inputDate" ng-model="pc.payment.expirationYear" placeholder="{{'MAIN.YY'|translate}}" required ng-minlength="2" ng-maxlength="2" />
                   </div>
 
                   <div ng-messages="pc.stateForm.inputDate.$error" ng-show="pc.stateForm.inputDate.$touched">
@@ -86,7 +82,7 @@
                   </label>
 
                   <div class="col-sm-3">
-                    <input type="text" class="form-control" name="inputSecCode" ng-model="pc.payment.securityCode"  ng-required="pc.isSecCodeNeeded()" ng-maxlength="3" ng-pattern="/^[0-9]{3,}$/" placeholder="{{'MAIN.SECURITY_CODE'|translate}}" />
+                    <input type="text" class="form-control" name="inputSecCode" ng-model="pc.payment.securityCode" ng-required="pc.isSecCodeNeeded()" ng-maxlength="3" ng-pattern="/^[0-9]{3,}$/" placeholder="{{'MAIN.SECURITY_CODE'|translate}}" />
                     <div ng-messages="pc.stateForm.inputSecCode.$error" ng-show="pc.stateForm.inputSecCode.$touched">
                       <div ng-messages-include="./app/shared/messages.html"></div>
                       <p ng-message="pattern">{{'MESSAGES.NUMBER'|translate}} 3)</p>
@@ -105,10 +101,10 @@
                   </label>
 
                   <div class="col-sm-3">
-                    <input type="text" class="form-control" name="inputName" ng-model="pc.payment.cardholderName"  placeholder="  {{'MAIN.NAME'|translate}}" required/>
+                    <input type="text" class="form-control" name="inputName" ng-model="pc.payment.cardholderName" placeholder="  {{'MAIN.NAME'|translate}}" required/>
                   </div>
                   <div class="col-sm-3">
-                    <input type="text" class="form-control" name="inputName" ng-model="pc.payment.cardholderSurname"  placeholder="{{'MAIN.SURNAME'|translate}}" required/>
+                    <input type="text" class="form-control" name="inputName" ng-model="pc.payment.cardholderSurname" placeholder="{{'MAIN.SURNAME'|translate}}" required/>
                   </div>
                   <div ng-messages="pc.stateForm.inputName.$error" ng-show="pc.stateForm.inputName.$touched">
                     <div ng-messages-include="./app/shared/messages.html"></div>
@@ -128,6 +124,29 @@
                 </div>
               </form>
 
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-success">
+            <div class="cnrflash">
+              <div class="cnrflash-inner">
+                <span class="cnrflash-label"> {{'SIDEBAR.TEAM'|translate}}
+                  <br> {{'SIDEBAR.INSURANCE'|translate}}
+                </span>
+              </div>
+            </div>
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {{'SIDEBAR.PRICE'|translate}}</h3>
+            </div>
+            <div class="panel-body">
+              <div class="the-price">
+                <h1>
+                  {{pc.price | currency }}
+                  <span class="subscript"></span>
+                </h1>
+              </div>
             </div>
           </div>
         </div>

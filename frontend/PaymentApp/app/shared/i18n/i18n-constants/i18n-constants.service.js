@@ -4,8 +4,9 @@
   var crTranslations = {
     "en": {
       "SIDEBAR": {
-        "ORDER_TOTAL": "Total amount",
-        "ORDER_ID": "Insurance id: "
+        "TEAM" : "Team18",
+        "INSURANCE" : "Insurance",
+        "PRICE" : "Price to pay"
 
       },
 
@@ -50,8 +51,9 @@
     },
     "sr-latn": {
       "SIDEBAR": {
-        "ORDER_TOTAL": "Ukupna cena:",
-        "ORDER_ID": "Id osiguranja: "
+        "TEAM" : "Tim18",
+        "INSURANCE" : "Osiguranje",
+        "PRICE" : "Za uplatu"
 
       },
       "NAVBAR": {

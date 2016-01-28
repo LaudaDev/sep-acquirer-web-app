@@ -7,7 +7,7 @@
 
 	config.$inject = ['$stateProvider','$urlRouterProvider'];
 	function config($stateProvider,$urlRouterProvider) {
-		$urlRouterProvider.otherwise('/paying');
+		$urlRouterProvider.otherwise('/payApp');
 
 		$stateProvider
 			.state('main', {
@@ -24,12 +24,12 @@
 				}
 			})
 			.state('main.paying', {
-				url:'/paying',//:id
+				url:'/payApp/:paymentID',
 				views: {
 					'content@': {
-						// resolve: {  //IDEJA JE DA DOBIJEM ID TJ DA GA PROCITAM IZ BAZE I DA DOBIJEM TU PONUDU KAKO BIH IMAO CENU I OSTALE PODATKE
-						// 	insurance: getInsurance,
-						// },
+						resolve: {
+							price: getPrice,
+						},
 						templateUrl: 'app/components/paying/paying.html',
 						controller: 'PayingController',
 						controllerAs: 'pc'
@@ -37,9 +37,9 @@
 				}
 			});
 
-		// getInsurance.$inject = ['payingService','$stateParams'];
-		// function getInsurance(payingService,$stateParams) {
-		// 	return payingService.get({},{'_id':$stateParams.id}).$promise;
-		// }
+			getPrice.$inject = ['payingService','$stateParams'];
+			function getPrice(payingService,$stateParams) {
+      	return payingService.get({paymentID: $stateParams.paymentID}).$promise;
+    }
 	}
 })();

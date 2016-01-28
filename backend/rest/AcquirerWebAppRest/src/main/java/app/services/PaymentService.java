@@ -160,7 +160,7 @@ public class PaymentService {
 	}
 	
 	
-	public double getAmountToPay(int paymentId)
+	public Double getAmountToPay(int paymentId)
 	{
 		return transactionService.getAmountToPay(paymentId);
 	}

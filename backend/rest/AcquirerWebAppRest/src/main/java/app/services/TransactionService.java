@@ -45,7 +45,7 @@ public class TransactionService {
 		return transactionRepository.findByTimestamp(d);
 	}
 
-	public double getAmountToPay(int paymentId) {
+	public Double getAmountToPay(int paymentId) {
 		Transaction t = transactionRepository.findByPaymentId(paymentId);
 		if (t == null)
 			throw new NotFoundException("");

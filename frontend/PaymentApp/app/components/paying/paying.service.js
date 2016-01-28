@@ -7,10 +7,7 @@
 
 	payingService.$inject = ['$resource'];
 	function payingService($resource) {
-		var apiKey = "INXupqz0_X3m6Xp42025Tl54zoIT4Mfc";
-		var dbName = "insuranceapp";
-		var collectionName = "purchaseInsurances";
-		return $resource("https://api.mongolab.com/api/1/databases/:dbName/collections/:collectionName/:id",
-			{apiKey: apiKey, id: "@_id", dbName: dbName, collectionName: collectionName});
+		var url = "http://localhost:8082/api/payment/paying/:paymentID";
+		return $resource(url, {});
 	}
 })();
