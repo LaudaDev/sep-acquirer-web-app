@@ -18,6 +18,6 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 	  
 	  @Query(value="{'acquirerTimestamp': ?0 }")
 	  List<Transaction> findByTimestamp(Date acquirerTimestamp);
-
+	 
 
 }

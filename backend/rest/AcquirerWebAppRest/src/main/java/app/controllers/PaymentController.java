@@ -22,13 +22,13 @@ import app.services.PaymentService;
 public class PaymentController {
 	
 	@Autowired
-	private PaymentService instructionService;
+	private PaymentService paymentService;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public PaymentInstructions generatePaymentInstructions(@Validated @RequestBody MerchantPaymentRequest request,  BindingResult bindingResult)
 	{
-		return instructionService.generatePaymentInstructions(request, bindingResult );
+		return paymentService.generatePaymentInstructions(request, bindingResult );
 	}
 	
 	/*
@@ -44,7 +44,14 @@ public class PaymentController {
 	@ResponseBody
 	public String payInsurance(@PathVariable("paymentID") Integer paymentID ,@Validated @RequestBody PaymentCardDetails paymentCardDetails)
 	{
-		URI resultURI = instructionService.sendAuthenticationRequest(paymentCardDetails,paymentID);
+		URI resultURI = paymentService.sendAuthenticationRequest(paymentCardDetails,paymentID);
 		return "redirect:"+resultURI;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{paymentID}")
+	@ResponseBody
+	public double getAmountToPay(@PathVariable("paymentID") Integer paymentID)
+	{
+		return paymentService.getAmountToPay(paymentID);
 	}
 }

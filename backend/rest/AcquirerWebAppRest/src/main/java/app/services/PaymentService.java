@@ -158,4 +158,10 @@ public class PaymentService {
 		return merchantResponse;
 
 	}
+	
+	
+	public double getAmountToPay(int paymentId)
+	{
+		return transactionService.getAmountToPay(paymentId);
+	}
 }

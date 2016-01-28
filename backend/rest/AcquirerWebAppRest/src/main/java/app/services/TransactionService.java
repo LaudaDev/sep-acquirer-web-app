@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import app.model.Transaction;
 import app.repository.TransactionRepository;
+import app.services.exceptions.NotFoundException;
 
 @Service
 public class TransactionService {
@@ -39,11 +40,19 @@ public class TransactionService {
 
 		return transactionRepository.findByPaymentId(paymentId);
 	}
-	
-	 List<Transaction>  findByTimestamp(Date d)
-	  {
-			return transactionRepository.findByTimestamp(d);
-	  }
+
+	public List<Transaction> findByTimestamp(Date d) {
+		return transactionRepository.findByTimestamp(d);
+	}
+
+	public double getAmountToPay(int paymentId) {
+		Transaction t = transactionRepository.findByPaymentId(paymentId);
+		if (t == null)
+			throw new NotFoundException("");
+		else
+			return t.getMerchantRequestData().getAmount().doubleValue();
+
+	}
 
 	public void remove(String id) {
 

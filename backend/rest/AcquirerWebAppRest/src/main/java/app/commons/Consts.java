@@ -12,7 +12,7 @@ public final class Consts {
 	static {
         URL paymentURL;
         try {
-            paymentURL = new URL("http://localhost:8081/api/payment/acquirerResult");
+            paymentURL = new URL("http://localhost:8083/payApp");
         } catch (java.net.MalformedURLException e) {
             paymentURL = null;
         }
