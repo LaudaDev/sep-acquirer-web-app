@@ -24,6 +24,7 @@ import app.model.transferData.TransactionResponseFromAcquirer;
 import app.repository.TransactionRepository;
 import app.services.exceptions.BadRequestException;
 import app.services.exceptions.CustomRestClientException;
+import app.services.exceptions.NotFoundException;
 
 @Service
 public class PaymentService {
@@ -83,12 +84,18 @@ public class PaymentService {
 	}
 
 	public URI sendAuthenticationRequest(PaymentCardInfo paymentCardDetails, int paymentID) {
+		
 		logger.info("Payment card details");
 		logger.info(paymentCardDetails.toString());
 		logger.info("Creating authentication request");
+		
 		TransactionAuthenticationRequest transactionAuthRequest;
 		TransactionResponseFromAcquirer bankResponse;
 		Transaction transaction = transactionService.findByPaymentId(paymentID);
+		
+		if(transaction == null)
+			throw new NotFoundException("Transaction with payment id "+paymentID+" doesn't exist");
+		
 		transactionAuthRequest = new TransactionAuthenticationRequest();
 		transactionAuthRequest.setAcquirerInfo(transaction.getAcquirerInfo());
 		transactionAuthRequest.setCardInfo(paymentCardDetails);
