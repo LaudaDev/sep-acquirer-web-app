@@ -2,8 +2,8 @@ package app.commons;
 
 public final class RandomGenerator {
 
-	private static int acquirerOrderId =0;
-	private static int paymentId =0;	
+	private static int acquirerOrderId =1;
+	private static int paymentId =1;	
 	
 	public static int generateAcquirerOrderId()
 	{

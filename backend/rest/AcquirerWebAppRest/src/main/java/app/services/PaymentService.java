@@ -13,8 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import app.commons.Consts;
 import app.commons.RandomGenerator;
 import app.model.Transaction;
+import app.model.transferData.AcquirerInfo;
 import app.model.transferData.MerchantPaymentRequest;
-import app.model.transferData.PaymentCardDetails;
+import app.model.transferData.PaymentCardInfo;
 import app.model.transferData.PaymentInstructions;
 import app.model.transferData.SharingAmount;
 import app.model.transferData.TransactionAuthenticationRequest;
@@ -29,10 +30,7 @@ public class PaymentService {
 
 	@Autowired
 	private TransactionService transactionService;
-
-	@Autowired
-	private TransactionRepository transactionRepository;
-
+	
 	@Autowired
 	private MerchantRegisterService merchantService;
 
@@ -56,6 +54,9 @@ public class PaymentService {
 			}
 		}
 
+		if(request.getMerchantInfo() == null)
+			throw new BadRequestException("Merchant info is null");
+		
 		if (!merchantService.isMerchantRegistered(request.getMerchantId(), request.getMerchatPassword())) {
 			// redirekcija ->error url
 		}
@@ -74,15 +75,14 @@ public class PaymentService {
 		transaction.setPaymentId(paymentId);
 		acquirerOrderId = RandomGenerator.generateAcquirerOrderId();
 		acquirerTimestamp = new Date();
-		transaction.setAcquirerOrderId(acquirerOrderId);
-		transaction.setAcquirerTimestamp(acquirerTimestamp);
+		transaction.setAcquirerInfo(new AcquirerInfo(acquirerOrderId,acquirerTimestamp));
 		transactionService.save(transaction);
 		logger.info("payment instruction for merchant");
 		logger.info(instructions.toString());
 		return instructions;
 	}
 
-	public URI sendAuthenticationRequest(PaymentCardDetails paymentCardDetails, int paymentID) {
+	public URI sendAuthenticationRequest(PaymentCardInfo paymentCardDetails, int paymentID) {
 		logger.info("Payment card details");
 		logger.info(paymentCardDetails.toString());
 		logger.info("Creating authentication request");
@@ -90,9 +90,9 @@ public class PaymentService {
 		TransactionResponseFromAcquirer bankResponse;
 		Transaction transaction = transactionService.findByPaymentId(paymentID);
 		transactionAuthRequest = new TransactionAuthenticationRequest();
-		transactionAuthRequest.setAcquirerOrderId(transaction.getAcquirerOrderId());
-		transactionAuthRequest.setAcquirerTimestamp(transaction.getAcquirerTimestamp());
-		transactionAuthRequest.setPaymentCardDetails(paymentCardDetails);
+		transactionAuthRequest.setAcquirerInfo(transaction.getAcquirerInfo());
+		transactionAuthRequest.setCardInfo(paymentCardDetails);
+		transactionAuthRequest.setTransactionAmount(transaction.getMerchantRequestData().getAmount());
 
 		logger.info("Request sent to acquirer bank");
 		logger.info(transactionAuthRequest.toString());
@@ -112,13 +112,10 @@ public class PaymentService {
 	}
 
 	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse) {
-		Transaction transaction = transactionService.findByOrderIdAndTimestamp(bankResponse.getAcquirerOrderId(),
-				bankResponse.getAcquirerTimestamp());
-		transaction.setCardAuthorized(bankResponse.isCardAuthorized());
-		transaction.setCardAuthenticated(bankResponse.isCardAuthenticated());
-		transaction.setTransactionSucceded(bankResponse.isTransactionSucceded());
-		transaction.setIssuerOrderId(bankResponse.getIssuerOrderId());
-		transaction.setIssuerTimestamp(bankResponse.getIssuerTimestamp());
+		Transaction transaction = transactionService.findByOrderIdAndTimestamp(bankResponse.getAcquirerInfo().getAcquirerOrderId(),
+				bankResponse.getAcquirerInfo().getAcquirerTimestamp());
+		transaction.setTransactionStatus(bankResponse.getTransactionStatus());
+		transaction.setIssuerInfo(bankResponse.getIssuerInfo());
 		return transactionService.update(transaction);
 	}
 
@@ -138,12 +135,9 @@ public class PaymentService {
 	public URI sendTransactionResults(Transaction transaction) {
 
 		TransactionResponseForMerchant transactionResults = new TransactionResponseForMerchant();
-		transactionResults.setCardAuthorized(transaction.isCardAuthorized());
-		transactionResults.setCardAuthenticated(transaction.isCardAuthenticated());
-		transactionResults.setTransactionSucceded(transaction.isTransactionSucceded());
-		transactionResults.setMerchantOrderId(transaction.getMerchantRequestData().getMerchantOrderId());
-		transactionResults.setAcquirerOrderId(transaction.getAcquirerOrderId());
-		transactionResults.setAcquirerTimestamp(transaction.getAcquirerTimestamp());
+		transactionResults.setTransactionStatus(transaction.getTransactionStatus());
+		transactionResults.setMerchantOrderId(transaction.getMerchantRequestData().getMerchantInfo().getMerchantOrderId());
+		transactionResults.setAcquirerInfo(transaction.getAcquirerInfo());
 		transactionResults.setPaymentId(transaction.getPaymentId());
 
 		logger.info("Transaction result for merchant");
@@ -166,8 +160,5 @@ public class PaymentService {
 		return amount;
 	}
 
-	public Transaction getTransaction(int paymentId) {
 
-		return transactionRepository.findByPaymentId(paymentId);
-	}
 }

@@ -1,64 +1,71 @@
 package app.model.transferData;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class TransactionAuthenticationRequest {
-
-	@NotNull(message = "error.acquirerOrderId.notnull")
-	private int acquirerOrderId;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "error.acquirerTimestamp.notnull")
-	private Date acquirerTimestamp;
-
+	
 	@NotNull(message = "error.paymentCardDetails.notnull")
-	private PaymentCardDetails paymentCardDetails;
+	private PaymentCardInfo cardInfo;
 
+	@NotNull(message = "error.acquirerInfo.notnull")
+	private AcquirerInfo acquirerInfo;
+	
+	@NotNull(message = "error.transactionAmount.notnull")
+	private BigDecimal transactionAmount;
+	
 	public TransactionAuthenticationRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TransactionAuthenticationRequest(int acquirerOrderId, Date acquirerTimestamp,
-			PaymentCardDetails paymentCardDetails) {
+
+	public TransactionAuthenticationRequest(PaymentCardInfo cardInfo, AcquirerInfo acquirerInfo,
+			BigDecimal transactionAmount) {
 		super();
-		this.acquirerOrderId = acquirerOrderId;
-		this.acquirerTimestamp = acquirerTimestamp;
-		this.paymentCardDetails = paymentCardDetails;
+		this.cardInfo = cardInfo;
+		this.acquirerInfo = acquirerInfo;
+		this.transactionAmount = transactionAmount;
 	}
 
-	public int getAcquirerOrderId() {
-		return acquirerOrderId;
+
+	public AcquirerInfo getAcquirerInfo() {
+		return acquirerInfo;
 	}
 
-	public void setAcquirerOrderId(int acquirerOrderId) {
-		this.acquirerOrderId = acquirerOrderId;
+	public void setAcquirerInfo(AcquirerInfo acquirerInfo) {
+		this.acquirerInfo = acquirerInfo;
 	}
 
-	public Date getAcquirerTimestamp() {
-		return acquirerTimestamp;
+
+	public PaymentCardInfo getCardInfo() {
+		return cardInfo;
 	}
 
-	public void setAcquirerTimestamp(Date acquirerTimestamp) {
-		this.acquirerTimestamp = acquirerTimestamp;
+
+	public void setCardInfo(PaymentCardInfo cardInfo) {
+		this.cardInfo = cardInfo;
 	}
 
-	public PaymentCardDetails getPaymentCardDetails() {
-		return paymentCardDetails;
+
+	public BigDecimal getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setPaymentCardDetails(PaymentCardDetails paymentCardDetails) {
-		this.paymentCardDetails = paymentCardDetails;
+
+	public void setTransactionAmount(BigDecimal transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
+
 
 	@Override
 	public String toString() {
-		return "TransactionAuthenticationRequest [acquirerOrderId=" + acquirerOrderId + ", acquirerTimestamp="
-				+ acquirerTimestamp + ", paymentCardDetails=" + paymentCardDetails + "]";
+		return "TransactionAuthenticationRequest [cardInfo=" + cardInfo + ", acquirerInfo=" + acquirerInfo
+				+ ", transactionAmount=" + transactionAmount + "]";
 	}
 
+
+
+	
 }

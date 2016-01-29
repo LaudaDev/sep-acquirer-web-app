@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import app.model.transferData.IssuerInfo;
 import app.model.transferData.TransactionAuthenticationRequest;
 import app.model.transferData.TransactionResponseFromAcquirer;
+import app.model.transferData.TransactionStatus;
 
 @Controller
 @RequestMapping("/acquirerResult")
@@ -21,14 +23,10 @@ public class FakeAcquirerController {
 	public TransactionResponseFromAcquirer  fakeResponse(@RequestBody TransactionAuthenticationRequest request)
 	{
 		TransactionResponseFromAcquirer response = new TransactionResponseFromAcquirer();
-		response.setCardAuthenticated(true);
-		response.setCardAuthorized(true);
-		response.setTransactionSucceded(true);
-		response.setAcquirerTimestamp(request.getAcquirerTimestamp());
-		System.out.println("acqu timestamp in fake controller "+request.getAcquirerTimestamp());
-		response.setAcquirerOrderId(request.getAcquirerOrderId());
-		response.setIssuerTimestamp(new Date());
-		response.setIssuerOrderId(1);
+		response.setTransactionStatus(new TransactionStatus("00", "success"));
+		response.setAcquirerInfo(request.getAcquirerInfo());
+		response.setIssuerInfo(new IssuerInfo(1,new Date()));
+
 		return response;
 		
 	}
@@ -39,12 +37,5 @@ public class FakeAcquirerController {
 	{
 		return String.valueOf(paymentID);
 	}
-	/*
-	@RequestMapping(method = RequestMethod.GET)
-	@ResponseBody
-	public String  fake()
-	{
-		return "jjjj";
-	}
-	*/
+
 }

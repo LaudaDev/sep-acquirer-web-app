@@ -46,9 +46,9 @@ public class TransactionService {
 	}
 
 	public Double getAmountToPay(int paymentId) {
-		Transaction t = transactionRepository.findByPaymentId(paymentId);
+		Transaction t = transactionRepository.getAmountToPay(paymentId);
 		if (t == null)
-			throw new NotFoundException("");
+			throw new NotFoundException("Transaction with paymentId "+paymentId+" not found");
 		else
 			return t.getMerchantRequestData().getAmount().doubleValue();
 

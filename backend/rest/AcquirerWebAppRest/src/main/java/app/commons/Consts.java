@@ -23,7 +23,7 @@ public final class Consts {
 	static {
         URL acquirerURL;
         try {
-        	acquirerURL = new URL("http://localhost:8081/api/payment/acquirerResult");
+        	acquirerURL = new URL("http://localhost:8082/api/payment/acquirerResult");
         } catch (java.net.MalformedURLException e) {
         	acquirerURL = null;
         }

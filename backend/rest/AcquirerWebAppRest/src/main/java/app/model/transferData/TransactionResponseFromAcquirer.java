@@ -1,117 +1,58 @@
 package app.model.transferData;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class TransactionResponseFromAcquirer {
 
-	@NotNull(message = "error.isCardAuthenticated.notnull")
-	private boolean isCardAuthenticated;
+	@NotNull(message = "error.acquirerInfo.notnull")
+	private AcquirerInfo acquirerInfo;
+	
+	@NotNull(message = "error.issuerInfo.notnull")
+	private IssuerInfo issuerInfo;
 
-	@NotNull(message = "error.isCardAuthorized.notnull")
-	private boolean isCardAuthorized;
-
-	@NotNull(message = "error.isTransactionSucceded.notnull")
-	private boolean isTransactionSucceded;
-
-	@NotNull(message = "error.acquirerOrderId.notnull")
-	private int acquirerOrderId;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "error.acquirerTimestamp.notnull")
-	private Date acquirerTimestamp;
-
-	@NotNull(message = "error.issuerOrderId.notnull")
-	private int issuerOrderId;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotNull(message = "error.issuerTimestamp.notnull")
-	private Date issuerTimestamp;
+	@NotNull(message = "error.transactionStatus.notnull")
+	private TransactionStatus transactionStatus;
 
 	public TransactionResponseFromAcquirer() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public TransactionResponseFromAcquirer(boolean isCardAuthenticated, boolean isCardAuthorized,
-			boolean isTransactionSucceded, int acquirerOrderId, Date acquirerTimestamp, int issuerOrderId,
-			Date issuerTimestamp) {
+	public TransactionResponseFromAcquirer(AcquirerInfo acquirerInfo, IssuerInfo issuerInfo,
+			TransactionStatus transactionStatus) {
 		super();
-		this.isCardAuthenticated = isCardAuthenticated;
-		this.isCardAuthorized = isCardAuthorized;
-		this.isTransactionSucceded = isTransactionSucceded;
-		this.acquirerOrderId = acquirerOrderId;
-		this.acquirerTimestamp = acquirerTimestamp;
-		this.issuerOrderId = issuerOrderId;
-		this.issuerTimestamp = issuerTimestamp;
+		this.acquirerInfo = acquirerInfo;
+		this.issuerInfo = issuerInfo;
+		this.transactionStatus = transactionStatus;
 	}
 
-	public boolean isCardAuthenticated() {
-		return isCardAuthenticated;
+	public AcquirerInfo getAcquirerInfo() {
+		return acquirerInfo;
 	}
 
-	public void setCardAuthenticated(boolean isCardAuthenticated) {
-		this.isCardAuthenticated = isCardAuthenticated;
+	public void setAcquirerInfo(AcquirerInfo acquirerInfo) {
+		this.acquirerInfo = acquirerInfo;
 	}
 
-	public boolean isCardAuthorized() {
-		return isCardAuthorized;
+	public IssuerInfo getIssuerInfo() {
+		return issuerInfo;
 	}
 
-	public void setCardAuthorized(boolean isCardAuthorized) {
-		this.isCardAuthorized = isCardAuthorized;
+	public void setIssuerInfo(IssuerInfo issuerInfo) {
+		this.issuerInfo = issuerInfo;
 	}
 
-	public boolean isTransactionSucceded() {
-		return isTransactionSucceded;
+	public TransactionStatus getTransactionStatus() {
+		return transactionStatus;
 	}
 
-	public void setTransactionSucceded(boolean isTransactionSucceded) {
-		this.isTransactionSucceded = isTransactionSucceded;
-	}
-
-	public int getAcquirerOrderId() {
-		return acquirerOrderId;
-	}
-
-	public void setAcquirerOrderId(int acquirerOrderId) {
-		this.acquirerOrderId = acquirerOrderId;
-	}
-
-	public Date getAcquirerTimestamp() {
-		return acquirerTimestamp;
-	}
-
-	public void setAcquirerTimestamp(Date acquirerTimestamp) {
-		this.acquirerTimestamp = acquirerTimestamp;
-	}
-
-	public int getIssuerOrderId() {
-		return issuerOrderId;
-	}
-
-	public void setIssuerOrderId(int issuerOrderId) {
-		this.issuerOrderId = issuerOrderId;
-	}
-
-	public Date getIssuerTimestamp() {
-		return issuerTimestamp;
-	}
-
-	public void setIssuerTimestamp(Date issuerTimestamp) {
-		this.issuerTimestamp = issuerTimestamp;
+	public void setTransactionStatus(TransactionStatus transactionStatus) {
+		this.transactionStatus = transactionStatus;
 	}
 
 	@Override
 	public String toString() {
-		return "TransactionResponseFromAcquirer [isCardAuthenticated=" + isCardAuthenticated + ", isCardAuthorized="
-				+ isCardAuthorized + ", isTransactionSucceded=" + isTransactionSucceded + ", acquirerOrderId="
-				+ acquirerOrderId + ", acquirerTimestamp=" + acquirerTimestamp + ", issuerOrderId=" + issuerOrderId
-				+ ", issuerTimestamp=" + issuerTimestamp + "]";
+		return "TransactionResponse [acquirerInfo=" + acquirerInfo + ", issuerInfo=" + issuerInfo
+				+ ", transactionStatus=" + transactionStatus + "]";
 	}
 
-	
 }

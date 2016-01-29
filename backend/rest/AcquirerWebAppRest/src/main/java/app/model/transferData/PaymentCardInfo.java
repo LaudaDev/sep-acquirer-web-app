@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class PaymentCardDetails {
+public class PaymentCardInfo {
 
 	@NotNull(message = "error.pan.notnull")
 	@Size(min = 10, max = 10, message = "error.pan.size")
@@ -17,27 +17,24 @@ public class PaymentCardDetails {
 	private int securityCode;
 
 	@NotNull(message = "error.cardHolderName.notnull")
-	private String cardHolderName;
+	private String holderName;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.expirationDate.notnull")
 	private Date expirationDate;
 
-	@NotNull(message = "error.amount.notnull")
-	private double amount;
 
-	public PaymentCardDetails() {
+	public PaymentCardInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public PaymentCardDetails(String pan, int securityCode, String cardHolderName, Date expirationDate, double amount) {
+	public PaymentCardInfo(String pan, int securityCode, String cardHolderName, Date expirationDate) {
 		super();
 		this.pan = pan;
 		this.securityCode = securityCode;
-		this.cardHolderName = cardHolderName;
+		this.holderName = cardHolderName;
 		this.expirationDate = expirationDate;
-		this.amount = amount;
 	}
 
 	public String getPan() {
@@ -57,11 +54,11 @@ public class PaymentCardDetails {
 	}
 
 	public String getCardHolderName() {
-		return cardHolderName;
+		return holderName;
 	}
 
 	public void setCardHolderName(String cardHolderName) {
-		this.cardHolderName = cardHolderName;
+		this.holderName = cardHolderName;
 	}
 
 	public Date getExpirationDate() {
@@ -72,18 +69,11 @@ public class PaymentCardDetails {
 		this.expirationDate = expirationDate;
 	}
 
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "PaymentCardDetails [pan=" + pan + ", securityCode=" + securityCode + ", cardHolderName="
-				+ cardHolderName + ", expirationDate=" + expirationDate + ", amount=" + amount + "]";
+				+ holderName + ", expirationDate=" + expirationDate+"]";
 	}
 
 }

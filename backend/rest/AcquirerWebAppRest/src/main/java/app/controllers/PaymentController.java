@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import app.model.transferData.MerchantPaymentRequest;
-import app.model.transferData.PaymentCardDetails;
+import app.model.transferData.PaymentCardInfo;
 import app.model.transferData.PaymentInstructions;
 import app.model.transferData.SharingAmount;
 import app.services.PaymentService;
@@ -45,7 +45,7 @@ public class PaymentController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/{paymentID}")
 	@ResponseBody
-	public String payInsurance(@PathVariable("paymentID") Integer paymentID ,@Validated @RequestBody PaymentCardDetails paymentCardDetails)
+	public String payInsurance(@PathVariable("paymentID") Integer paymentID ,@Validated @RequestBody PaymentCardInfo paymentCardDetails)
 	{
 		URI resultURI = paymentService.sendAuthenticationRequest(paymentCardDetails,paymentID);
 		return "redirect:"+resultURI;

@@ -18,6 +18,9 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 	  
 	  @Query(value="{'acquirerTimestamp': ?0 }")
 	  List<Transaction> findByTimestamp(Date acquirerTimestamp);
+	  
+	  @Query(value="{ 'paymentId' : ?0}", fields ="{'merchantRequestData.amount':1}")
+	  Transaction getAmountToPay(int paymentId);
 	 
 
 }
