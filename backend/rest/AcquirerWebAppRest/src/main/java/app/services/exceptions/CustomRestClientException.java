@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value=HttpStatus.SERVICE_UNAVAILABLE) 
+@ResponseStatus(value=HttpStatus.BAD_GATEWAY) 
 public class CustomRestClientException extends RuntimeException
 {
 /**

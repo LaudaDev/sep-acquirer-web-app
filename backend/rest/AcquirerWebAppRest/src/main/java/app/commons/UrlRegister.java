@@ -2,11 +2,11 @@ package app.commons;
 
 import java.net.URL;
 
-public final class Consts {
+public final class UrlRegister {
 	 
 
 	public static final URL PAYMENT_URL;
-	public static final URL ACQUIRER_URL;
+	public static final URL ACQUIRER_BANK_URL;
 	public static final URL MERCHANT_URL;
 	
 	static {
@@ -27,7 +27,7 @@ public final class Consts {
         } catch (java.net.MalformedURLException e) {
         	acquirerURL = null;
         }
-        ACQUIRER_URL = acquirerURL;
+        ACQUIRER_BANK_URL = acquirerURL;
     }
 	
 	static {
@@ -41,7 +41,7 @@ public final class Consts {
     }
 	
 	
-	private Consts(){
+	private UrlRegister(){
 		    //this prevents even the native class from 
 		    //calling this ctor as well :
 		    throw new AssertionError();

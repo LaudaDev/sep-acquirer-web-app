@@ -34,15 +34,6 @@ public class PaymentController {
 		return paymentService.generatePaymentInstructions(request, bindingResult );
 	}
 	
-	/*
-	@RequestMapping(method = RequestMethod.POST, value = "pay")
-	@ResponseBody
-	public TransactionResultsResponse payInsurance(@ModelAttribute("paymentID") int paymentID ,@RequestBody PaymentCardDetails paymentCardDetails)
-	{
-		return instructionService.sendAuthenticationRequest(paymentCardDetails, paymentID);
-	}
-	*/
-
 	@RequestMapping(method = RequestMethod.POST, value = "/{paymentID}")
 	@ResponseBody
 	public String payInsurance(@PathVariable("paymentID") Integer paymentID ,@Validated @RequestBody PaymentCardInfo paymentCardDetails)
