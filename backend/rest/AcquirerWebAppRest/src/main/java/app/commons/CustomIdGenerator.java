@@ -1,6 +1,6 @@
 package app.commons;
 
-public final class RandomGenerator {
+public final class CustomIdGenerator {
 
 	private static int acquirerOrderId =1;
 	private static int paymentId =1;	

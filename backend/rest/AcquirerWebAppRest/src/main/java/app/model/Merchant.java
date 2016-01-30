@@ -18,7 +18,7 @@ public class Merchant {
 
 	@NotNull(message = "error.merchatPassword.notnull")
 	@Size(min = 5, max = 30, message = "error.merchatPassword.size")
-	private String merchatPassword;
+	private String merchantPassword;
 
 	
 	public Merchant() {
@@ -31,7 +31,7 @@ public class Merchant {
 		super();
 		this.id = id;
 		this.merchantId = merchantId;
-		this.merchatPassword = merchatPassword;
+		this.merchantPassword = merchatPassword;
 	}
 
 
@@ -56,18 +56,18 @@ public class Merchant {
 
 
 	public String getMerchatPassword() {
-		return merchatPassword;
+		return merchantPassword;
 	}
 
 
 	public void setMerchatPassword(String merchatPassword) {
-		this.merchatPassword = merchatPassword;
+		this.merchantPassword = merchatPassword;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Merchant [id=" + id + ", merchantId=" + merchantId + ", merchatPassword=" + merchatPassword + "]";
+		return "Merchant [id=" + id + ", merchantId=" + merchantId + ", merchatPassword=" + merchantPassword + "]";
 	}
 
 	

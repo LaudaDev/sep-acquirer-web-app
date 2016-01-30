@@ -24,6 +24,7 @@ public class MerchantRegisterController {
 	private MerchantRegisterService merchantService;
 
 	@RequestMapping(method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> create(@Validated @RequestBody Merchant merchant) {
 		return merchantService.save(merchant);	
 	}
@@ -35,16 +36,19 @@ public class MerchantRegisterController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{merchantId}")
+	@ResponseBody
 	public Merchant getById(@PathVariable("merchantId") String merchantId) {
 		return merchantService.findById(merchantId);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{merchantId}")
+	@ResponseBody
 	public String remove(@PathVariable("merchantId") String merchantId) {
 		return merchantService.remove(merchantId);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
+	@ResponseBody
 	public Map<String, Object> update(@Validated @RequestBody Merchant merchant) {
 		return merchantService.update(merchant);	
 	}
