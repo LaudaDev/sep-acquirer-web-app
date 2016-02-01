@@ -13,7 +13,7 @@ public class Transaction {
 
 	@Id
 	private String Id;
-	private int paymentId;
+	private Integer paymentId;
 	private AcquirerInfo acquirerInfo;
 	private IssuerInfo issuerInfo;
 	private MerchantPaymentRequest merchantRequestData;
@@ -24,7 +24,7 @@ public class Transaction {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transaction(String id, int paymentId, AcquirerInfo acquirerInfo, IssuerInfo issuerInfo,
+	public Transaction(String id, Integer paymentId, AcquirerInfo acquirerInfo, IssuerInfo issuerInfo,
 			MerchantPaymentRequest merchantRequestData, TransactionStatus transactionStatus) {
 		super();
 		Id = id;
@@ -43,11 +43,11 @@ public class Transaction {
 		Id = id;
 	}
 
-	public int getPaymentId() {
+	public Integer getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(int paymentId) {
+	public void setPaymentId(Integer paymentId) {
 		this.paymentId = paymentId;
 	}
 

@@ -14,7 +14,7 @@ public class PaymentCardInfo {
 	private String pan;
 
 	@NotNull(message = "error.securityCode.notnull")
-	private int securityCode;
+	private Integer securityCode;
 
 	@NotNull(message = "error.cardHolderName.notnull")
 	private String holderName;
@@ -29,7 +29,7 @@ public class PaymentCardInfo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PaymentCardInfo(String pan, int securityCode, String cardHolderName, Date expirationDate) {
+	public PaymentCardInfo(String pan, Integer securityCode, String cardHolderName, Date expirationDate) {
 		super();
 		this.pan = pan;
 		this.securityCode = securityCode;
@@ -45,11 +45,11 @@ public class PaymentCardInfo {
 		this.pan = pan;
 	}
 
-	public int getSecurityCode() {
+	public Integer getSecurityCode() {
 		return securityCode;
 	}
 
-	public void setSecurityCode(int securityCode) {
+	public void setSecurityCode(Integer securityCode) {
 		this.securityCode = securityCode;
 	}
 

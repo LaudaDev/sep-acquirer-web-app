@@ -9,24 +9,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class AcquirerInfo {
 
 	@NotNull(message = "error.acquirerOrderId.notnull")
-	private int orderId;
+	private Integer orderId;
 
 	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.acquirerTimestamp.notnull")
 	private Date timestamp;
 	
 	
-	public AcquirerInfo(int acquirerOrderId, Date acquirerTimestamp) {
+	public AcquirerInfo(Integer acquirerOrderId, Date acquirerTimestamp) {
 		super();
 		this.orderId = acquirerOrderId;
 		this.timestamp = acquirerTimestamp;
 	}
 
-	public int getAcquirerOrderId() {
+	public Integer getAcquirerOrderId() {
 		return orderId;
 	}
 
-	public void setAcquirerOrderId(int acquirerOrderId) {
+	public void setAcquirerOrderId(Integer acquirerOrderId) {
 		this.orderId = acquirerOrderId;
 	}
 

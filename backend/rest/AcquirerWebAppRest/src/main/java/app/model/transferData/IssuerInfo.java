@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class IssuerInfo {
 	
 	@NotNull(message = "error.issuerOrderId.notnull")
-	private int orderId;
+	private Integer orderId;
 
 	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.issuerTimestamp.notnull")
@@ -22,17 +22,17 @@ public class IssuerInfo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public IssuerInfo(int issuerOrderId, Date issuerTimestamp) {
+	public IssuerInfo(Integer issuerOrderId, Date issuerTimestamp) {
 		super();
 		this.orderId = issuerOrderId;
 		this.timestamp = issuerTimestamp;
 	}
 	
-	public int getIssuerOrderId() {
+	public Integer getIssuerOrderId() {
 		return orderId;
 	}
 
-	public void setIssuerOrderId(int issuerOrderId) {
+	public void setIssuerOrderId(Integer issuerOrderId) {
 		this.orderId = issuerOrderId;
 	}
 

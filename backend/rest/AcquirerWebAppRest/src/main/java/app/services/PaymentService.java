@@ -47,6 +47,7 @@ public class PaymentService {
 		// if request not valid -> redirect to error URL!
 		// check merchant id and password
 		if (bindingResult.hasErrors()) {
+			System.out.println("binding result error");
 			if (request.getErrorUrl() != null) {
 				// redirekcija na error url
 			} else {
@@ -103,6 +104,7 @@ public class PaymentService {
 
 		logger.info("Request sent to acquirer bank");
 		logger.info(transactionAuthRequest.toString());
+
 		bankResponse = postForTransactionResult(transactionAuthRequest);
 
 		if (bankResponse == null) {
@@ -114,20 +116,29 @@ public class PaymentService {
 			logger.info(bankResponse.toString());
 
 			transaction = saveTransactionResult(bankResponse);
-			responseForMerchant = createTransactionResponseForMerchant(transaction);
+			if (transaction == null) {
+				responseForMerchant = createTransactionResponseWithServerError();
+
+			} else {
+				responseForMerchant = createTransactionResponseForMerchant(transaction);
+			}
 		}
-		
+
 		return sendTransactionResults(responseForMerchant);
 	}
 
 	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse) {
+		Transaction transaction = null;
 
-		Transaction transaction = transactionService.findByOrderIdAndTimestamp(
-				bankResponse.getAcquirerInfo().getAcquirerOrderId(),
-				bankResponse.getAcquirerInfo().getAcquirerTimestamp());
-		transaction.setTransactionStatus(bankResponse.getTransactionStatus());
-		transaction.setIssuerInfo(bankResponse.getIssuerInfo());
-		return transactionService.update(transaction);
+		if (bankResponse.getAcquirerInfo() != null) {
+			transaction = transactionService.findByOrderIdAndTimestamp(
+					bankResponse.getAcquirerInfo().getAcquirerOrderId(),
+					bankResponse.getAcquirerInfo().getAcquirerTimestamp());
+			transaction.setTransactionStatus(bankResponse.getTransactionStatus());
+			transaction.setIssuerInfo(bankResponse.getIssuerInfo());
+			transaction = transactionService.update(transaction);
+		}
+		return transaction;
 	}
 
 	public TransactionResponseFromAcquirer postForTransactionResult(
@@ -166,10 +177,9 @@ public class PaymentService {
 	}
 
 	private TransactionResponseForMerchant createTransactionResponseWithServerError() {
+
 		TransactionStatus transactionStatus = new TransactionStatus("05", "SERVER_ERROR");
-
 		TransactionResponseForMerchant transactionResponse = new TransactionResponseForMerchant();
-
 		transactionResponse.setTransactionStatus(transactionStatus);
 
 		return transactionResponse;
@@ -179,8 +189,17 @@ public class PaymentService {
 
 		TransactionResponseForMerchant transactionResults = new TransactionResponseForMerchant();
 		transactionResults.setTransactionStatus(transaction.getTransactionStatus());
-		transactionResults
-				.setMerchantOrderId(transaction.getMerchantRequestData().getMerchantInfo().getMerchantOrderId());
+		if (transaction.getMerchantRequestData() != null) {
+			if (transaction.getMerchantRequestData().getMerchantInfo() != null) {
+				transactionResults.setMerchantOrderId(
+						transaction.getMerchantRequestData().getMerchantInfo().getMerchantOrderId());
+			} else {
+				logger.warn("Merchant info is null, transaction id: " + transaction.getId());
+			}
+		} else {
+			logger.warn("Merchant request data is null, transaction id: " + transaction.getId());
+		}
+
 		transactionResults.setAcquirerInfo(transaction.getAcquirerInfo());
 		transactionResults.setPaymentId(transaction.getPaymentId());
 

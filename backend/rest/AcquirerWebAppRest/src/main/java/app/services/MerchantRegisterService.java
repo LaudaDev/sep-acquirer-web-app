@@ -25,7 +25,7 @@ public class MerchantRegisterService {
 
 		Map<String, Object> response;
 		response = new LinkedHashMap<String, Object>();
-		
+	
 		if(isMerchantRegistered(merchant.getMerchantId(), merchant.getMerchatPassword()))
 		{
 			response.put("message", "Merchant already exists");

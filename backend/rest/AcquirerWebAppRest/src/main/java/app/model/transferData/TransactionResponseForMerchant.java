@@ -5,10 +5,10 @@ import javax.validation.constraints.NotNull;
 public class TransactionResponseForMerchant {
 
 	@NotNull(message = "error.merchantOrderId.notnull")
-	private int merchantOrderId;
+	private Integer merchantOrderId;
 
 	@NotNull(message = "error.paymentId.notnull")
-	private int paymentId;
+	private Integer paymentId;
 	
 	@NotNull(message = "error.acquirerInfo.notnull")
 	private AcquirerInfo acquirerInfo;
@@ -22,7 +22,7 @@ public class TransactionResponseForMerchant {
 	}
 	
 
-	public TransactionResponseForMerchant(int merchantOrderId, int paymentId, AcquirerInfo acquirerInfo,
+	public TransactionResponseForMerchant(Integer merchantOrderId, Integer paymentId, AcquirerInfo acquirerInfo,
 			TransactionStatus transactionStatus) {
 		super();
 		this.merchantOrderId = merchantOrderId;
@@ -33,19 +33,19 @@ public class TransactionResponseForMerchant {
 
 
 
-	public int getMerchantOrderId() {
+	public Integer getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(int merchantOrderId) {
+	public void setMerchantOrderId(Integer merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 
-	public int getPaymentId() {
+	public Integer getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(int paymentId) {
+	public void setPaymentId(Integer paymentId) {
 		this.paymentId = paymentId;
 	}
 

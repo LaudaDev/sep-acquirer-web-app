@@ -10,7 +10,7 @@ public class MerchantInfo {
 
 
 	@NotNull(message = "error.merchantOrderId.notnull")
-	private int merchantOrderId;
+	private Integer merchantOrderId;
 
 	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.merchantTimestamp.notnull")
@@ -22,17 +22,17 @@ public class MerchantInfo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MerchantInfo(int merchantOrderId, Date merchantTimestamp) {
+	public MerchantInfo(Integer merchantOrderId, Date merchantTimestamp) {
 		super();
 		this.merchantOrderId = merchantOrderId;
 		this.merchantTimestamp = merchantTimestamp;
 	}
 
-	public int getMerchantOrderId() {
+	public Integer getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(int merchantOrderId) {
+	public void setMerchantOrderId(Integer merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 

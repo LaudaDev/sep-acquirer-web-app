@@ -10,9 +10,9 @@ public class PaymentInstructions {
 	private URL paymentURL;
 
 	@NotNull(message = "error.paymentURL.notnull")
-	private int paymentID;
+	private Integer paymentID;
 
-	public PaymentInstructions(URL paymentURL, int paymentID) {
+	public PaymentInstructions(URL paymentURL, Integer paymentID) {
 		super();
 		this.paymentURL = paymentURL;
 		this.paymentID = paymentID;
@@ -31,11 +31,11 @@ public class PaymentInstructions {
 		this.paymentURL = paymentURL;
 	}
 
-	public int getPaymentID() {
+	public Integer getPaymentID() {
 		return paymentID;
 	}
 
-	public void setPaymentID(int paymentID) {
+	public void setPaymentID(Integer paymentID) {
 		this.paymentID = paymentID;
 	}
 
