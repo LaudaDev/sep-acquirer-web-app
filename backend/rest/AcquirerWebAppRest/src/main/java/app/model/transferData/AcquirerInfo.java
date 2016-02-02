@@ -14,28 +14,32 @@ public class AcquirerInfo {
 	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.acquirerTimestamp.notnull")
 	private Date timestamp;
-	
-	
-	public AcquirerInfo(Integer acquirerOrderId, Date acquirerTimestamp) {
+
+	public AcquirerInfo() {
 		super();
-		this.orderId = acquirerOrderId;
-		this.timestamp = acquirerTimestamp;
+		// TODO Auto-generated constructor stub
 	}
 
-	public Integer getAcquirerOrderId() {
+	public AcquirerInfo(Integer orderId, Date timestamp) {
+		super();
+		this.orderId = orderId;
+		this.timestamp = timestamp;
+	}
+
+	public Integer getOrderId() {
 		return orderId;
 	}
 
-	public void setAcquirerOrderId(Integer acquirerOrderId) {
-		this.orderId = acquirerOrderId;
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
-	public Date getAcquirerTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setAcquirerTimestamp(Date acquirerTimestamp) {
-		this.timestamp = acquirerTimestamp;
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -43,5 +47,4 @@ public class AcquirerInfo {
 		return "AcquirerInfo [acquirerOrderId=" + orderId + ", acquirerTimestamp=" + timestamp + "]";
 	}
 
-	
 }

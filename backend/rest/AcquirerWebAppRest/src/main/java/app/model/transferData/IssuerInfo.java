@@ -7,41 +7,39 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class IssuerInfo {
-	
+
 	@NotNull(message = "error.issuerOrderId.notnull")
 	private Integer orderId;
 
 	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
 	@NotNull(message = "error.issuerTimestamp.notnull")
 	private Date timestamp;
-	
-	
 
 	public IssuerInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public IssuerInfo(Integer issuerOrderId, Date issuerTimestamp) {
+	public IssuerInfo(Integer orderId, Date timestamp) {
 		super();
-		this.orderId = issuerOrderId;
-		this.timestamp = issuerTimestamp;
+		this.orderId = orderId;
+		this.timestamp = timestamp;
 	}
-	
-	public Integer getIssuerOrderId() {
+
+	public Integer getOrderId() {
 		return orderId;
 	}
 
-	public void setIssuerOrderId(Integer issuerOrderId) {
-		this.orderId = issuerOrderId;
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
-	public Date getIssuerTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	public void setIssuerTimestamp(Date issuerTimestamp) {
-		this.timestamp = issuerTimestamp;
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -49,5 +47,4 @@ public class IssuerInfo {
 		return "IssuerInfo [issuerOrderId=" + orderId + ", issuerTimestamp=" + timestamp + "]";
 	}
 
-	
 }

@@ -25,12 +25,11 @@ public class MerchantRegisterService {
 
 		Map<String, Object> response;
 		response = new LinkedHashMap<String, Object>();
-	
-		if(isMerchantRegistered(merchant.getMerchantId(), merchant.getMerchatPassword()))
-		{
+
+		if (isMerchantRegistered(merchant.getMerchantId(), merchant.getMerchatPassword())) {
 			response.put("message", "Merchant already exists");
 			return response;
-			
+
 		}
 		merchantRepository.save(merchant);
 		response.put("message", "Merchant created successfully");
@@ -45,14 +44,13 @@ public class MerchantRegisterService {
 	}
 
 	public Merchant findById(String id) {
-		
-		if(id == null)
-		{
+
+		if (id == null) {
 			throw new BadRequestException("merchant id is null");
-		} 
+		}
 		logger.info("Find merchant with id: " + id);
 		Merchant merchant = merchantRepository.findOne(id);
-		
+
 		if (merchant == null) {
 			throw new NotFoundException("Merchant with id " + id + " doesn't exist.");
 		}
@@ -60,36 +58,35 @@ public class MerchantRegisterService {
 	}
 
 	public String remove(String id) {
-		if(id == null)
-		{
+		if (id == null) {
 			throw new BadRequestException("merchant id is null");
-		} 
-		logger.info("Removing merchant with id: " + id);		
+		}
+		logger.info("Removing merchant with id: " + id);
 		merchantRepository.delete(id);
 		return "removed";
-	
+
 	}
 
 	public Map<String, Object> update(Merchant merchant) {
-		
+
 		Map<String, Object> response;
 		response = new LinkedHashMap<String, Object>();
 		merchantRepository.save(merchant);
 		response.put("message", "Merchant updated successfully");
 		response.put("insurance", merchant);
-		logger.info("Merchant updated successfully");	
+		logger.info("Merchant updated successfully");
 		return response;
 	}
 
 	boolean isMerchantRegistered(String merchantId, String merchantPassword) {
-		
-		if (merchantId == null || merchantPassword==null) {
-			throw new BadRequestException("merchantId or merchantPassword is null");		
+
+		if (merchantId == null || merchantPassword == null) {
+			throw new BadRequestException("merchantId or merchantPassword is null");
 		}
-		if(merchantRepository.findByIdAndPassword( merchantId,merchantPassword)!=null)
-				return true;
+		if (merchantRepository.findByIdAndPassword(merchantId, merchantPassword) != null)
+			return true;
 		return false;
-	
+
 	}
 
 }

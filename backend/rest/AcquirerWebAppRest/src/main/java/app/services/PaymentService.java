@@ -43,6 +43,7 @@ public class PaymentService {
 		int paymentId;
 		int acquirerOrderId;
 		Date acquirerTimestamp;
+		Transaction transaction;
 
 		// if request not valid -> redirect to error URL!
 		// check merchant id and password
@@ -71,7 +72,7 @@ public class PaymentService {
 		instructions.setPaymentURL(UrlRegister.PAYMENT_URL);
 		instructions.setPaymentID(paymentId);
 
-		Transaction transaction = new Transaction();
+		transaction = new Transaction();
 		transaction.setMerchantRequestData(request);
 		transaction.setPaymentId(paymentId);
 		acquirerOrderId = CustomIdGenerator.generateAcquirerOrderId();
@@ -95,7 +96,12 @@ public class PaymentService {
 
 		Transaction transaction = transactionService.findByPaymentId(paymentID);
 
+		if(transaction == null)
+		{
+			logger.info("trnsaction is null");
+		}
 		transactionAuthRequest = new TransactionAuthenticationRequest();
+		
 		transactionAuthRequest.setAcquirerInfo(transaction.getAcquirerInfo());
 		transactionAuthRequest.setCardInfo(paymentCardDetails);
 
@@ -132,8 +138,8 @@ public class PaymentService {
 
 		if (bankResponse.getAcquirerInfo() != null) {
 			transaction = transactionService.findByOrderIdAndTimestamp(
-					bankResponse.getAcquirerInfo().getAcquirerOrderId(),
-					bankResponse.getAcquirerInfo().getAcquirerTimestamp());
+					bankResponse.getAcquirerInfo().getOrderId(),
+					bankResponse.getAcquirerInfo().getTimestamp());
 			transaction.setTransactionStatus(bankResponse.getTransactionStatus());
 			transaction.setIssuerInfo(bankResponse.getIssuerInfo());
 			transaction = transactionService.update(transaction);
