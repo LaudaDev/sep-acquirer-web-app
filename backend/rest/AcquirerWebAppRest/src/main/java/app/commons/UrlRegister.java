@@ -23,7 +23,7 @@ public final class UrlRegister {
 	static {
         URL acquirerURL;
         try {
-        	acquirerURL = new URL("http://localhost:8082/api/payment/acquirerResult");
+        	acquirerURL = new URL("https://localhost:8082/api/payment/acquirerResult");
         } catch (java.net.MalformedURLException e) {
         	acquirerURL = null;
         }
@@ -33,7 +33,7 @@ public final class UrlRegister {
 	static {
         URL merchantURL;
         try {
-        	merchantURL = new URL("http://localhost:8080//api/merchant/payment/transactionResults");
+        	merchantURL = new URL("https://localhost:8080//api/merchant/payment/transactionResults");
         } catch (java.net.MalformedURLException e) {
         	merchantURL = null;
         }
