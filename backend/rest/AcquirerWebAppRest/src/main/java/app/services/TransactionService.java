@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import app.model.Transaction;
 import app.repository.TransactionRepository;
+import app.services.exceptions.BadRequestException;
 import app.services.exceptions.NotFoundException;
 
 @Service
@@ -27,28 +28,46 @@ public class TransactionService {
 	}
 
 	public Transaction findById(String id) {
+		if (id == null) {
+			throw new BadRequestException("transaction id is null");
+		}
+		Transaction transaction = transactionRepository.findOne(id);
 
-		return transactionRepository.findOne(id);
+		if (transaction == null) {
+			throw new NotFoundException("transaction with id " + id + " doesn't exist.");
+		}
+
+		return transaction;
 	}
 
 	public Transaction findByOrderIdAndTimestamp(int acquirerOrderId, Date acquirerTimestamp) {
+		if (acquirerTimestamp == null) {
+			throw new BadRequestException("acquirerTimestamp is null");
 
-		return transactionRepository.findByAcquirerOrderIdAndTimestamp(acquirerOrderId, acquirerTimestamp);
+		}
+		Transaction transaction = transactionRepository.findByAcquirerOrderIdAndTimestamp(acquirerOrderId,
+				acquirerTimestamp);
+		if (transaction == null) {
+			throw new NotFoundException("transaction with acquirerOrderId " + acquirerOrderId
+					+ " and acquirerTimestamp " + acquirerTimestamp + " doesn't exist.");
+		}
+		return transaction;
 	}
 
 	public Transaction findByPaymentId(int paymentId) {
 
-		return transactionRepository.findByPaymentId(paymentId);
-	}
+		Transaction transaction = transactionRepository.findByPaymentId(paymentId);
+		if (transaction == null) {
+			throw new NotFoundException("transaction with paymentID " + paymentId + " doesn't exist.");
+		}
+		return transaction;
 
-	public List<Transaction> findByTimestamp(Date d) {
-		return transactionRepository.findByTimestamp(d);
 	}
 
 	public Double getAmountToPay(int paymentId) {
 		Transaction t = transactionRepository.getAmountToPay(paymentId);
 		if (t == null)
-			throw new NotFoundException("Transaction with paymentId "+paymentId+" not found");
+			throw new NotFoundException("Transaction with paymentId " + paymentId + " not found");
 		else
 			return t.getMerchantRequestData().getAmount().doubleValue();
 
@@ -56,11 +75,17 @@ public class TransactionService {
 
 	public void remove(String id) {
 
+		if (id == null) {
+			throw new BadRequestException("Transaction id is null");
+		}
 		transactionRepository.delete(id);
 	}
 
 	public Transaction update(Transaction transaction) {
 
+		if (transaction == null) {
+			throw new BadRequestException("Transaction is null");
+		}
 		return transactionRepository.save(transaction);
 	}
 }

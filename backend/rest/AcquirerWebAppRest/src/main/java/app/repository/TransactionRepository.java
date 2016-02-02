@@ -10,14 +10,11 @@ import app.model.Transaction;
 
 
 public interface TransactionRepository extends MongoRepository<Transaction, String>{
-	  @Query(value="{'acquirerOrderId':?0 , 'acquirerTimestamp': ?1}")
+	  @Query(value="{'acquirerInfo.orderId':?0 , 'acquirerInfo.timestamp': ?1}")
 	  Transaction findByAcquirerOrderIdAndTimestamp(int acquirerOrderId, Date acquirerTimestamp);
 
-	  @Query(value="{ 'paymentId' : ?0}")
-	  Transaction findByPaymentId(int paymentId);
-	  
-	  @Query(value="{'acquirerTimestamp': ?0 }")
-	  List<Transaction> findByTimestamp(Date acquirerTimestamp);
+	  @Query(value="{'paymentId' : ?0}")
+	  Transaction findByPaymentId(Integer paymentId);
 	  
 	  @Query(value="{ 'paymentId' : ?0}", fields ="{'merchantRequestData.amount':1}")
 	  Transaction getAmountToPay(int paymentId);
