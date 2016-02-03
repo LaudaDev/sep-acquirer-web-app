@@ -9,7 +9,7 @@ public class PaymentCardInfo {
 	private String creditCard;
 
 	@NotNull(message = "error.cardNumber.notnull")
-	@Size(min = 10, max = 10, message = "error.pan.size")
+	@Size(min = 16, max = 16, message = "error.pan.size")
 	private String cardNumber;
 
 	@NotNull(message = "error.expirationMonth.notnull")
