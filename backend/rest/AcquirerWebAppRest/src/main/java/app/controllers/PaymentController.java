@@ -35,10 +35,11 @@ public class PaymentController {
 		return paymentService.generatePaymentInstructions(request, bindingResult);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/{paymentID}")
+	@RequestMapping(method = RequestMethod.POST, value = "/buy/{paymentID}")
 	@ResponseBody
 	public String payInsurance(@PathVariable("paymentID") Integer paymentID,
 			@Validated @RequestBody PaymentCardInfo paymentCardDetails) {
+		System.out.println("paying post");
 		URI resultURI = paymentService.sendAuthenticationRequest(paymentCardDetails, paymentID);
 		return "redirect:" + resultURI;
 	}

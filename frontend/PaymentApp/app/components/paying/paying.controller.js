@@ -5,11 +5,11 @@
     .module('paying-app.paying')
     .controller('PayingController', PayingController);
 
-  PayingController.$inject = ['$window', '$location','transaction'];
+  PayingController.$inject = ['$window', '$location','transaction','buyService','$stateParams'];
 
-  function PayingController($window, $location,transaction) {
+  function PayingController($window, $location,transaction,buyService,$stateParams) {
     var pc = this;
-  
+
     console.log(transaction);
     pc.price = transaction.amount;
     console.log(pc.price);
@@ -18,7 +18,8 @@
     pc.validatePayment = validatePayment;
     pc.isSecCodeNeeded = isSecCodeNeeded;
     pc.payment = {};
-
+    pc.buyService = buyService;
+    pc.payedDone = payedDone;
     pc.backToInsurance = backToInsurance;
 
     function howerOwer() {
@@ -26,13 +27,23 @@
     }
 
     function backToInsurance() {
-      $window.location.href = "http://localhost:8081/#/home/"
+      $window.location.href = "http://localhost:8081/#/home/";
+    }
+
+    function payedDone(){
+      pc.buyService.save({paymentID: $stateParams.paymentID},pc.payment,onSuccess);
+    }
+
+    function onSuccess(){
+      console.log("Uspesno placanje");
     }
 
     function validatePayment() {
       if (pc.stateForm.$valid) {
         pc.stateForm.$setUntouched();
         console.log("tacno");
+        console.log(pc.payment);
+        pc.payedDone();
       } else {
         touchControllsVehicles();
         console.log("netacno");

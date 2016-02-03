@@ -23,7 +23,7 @@ public final class UrlRegister {
 	static {
         URL acquirerURL;
         try {
-        	acquirerURL = new URL("https://localhost:8082/api/payment/acquirerResult");
+        	acquirerURL = new URL("https://localhost:8084/api/acquirer/bank/transaction/auth");
         } catch (java.net.MalformedURLException e) {
         	acquirerURL = null;
         }

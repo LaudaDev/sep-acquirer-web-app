@@ -7,7 +7,7 @@
 
 	payingService.$inject = ['$resource'];
 	function payingService($resource) {
-		var url = "http://localhost:8082/api/payment/paying/:paymentID";
+		var url = "https://localhost:8082/api/payment/paying/:paymentID";
 		return $resource(url, {});
 	}
 })();
