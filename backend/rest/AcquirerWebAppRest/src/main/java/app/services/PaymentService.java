@@ -14,6 +14,7 @@ import app.commons.CustomIdGenerator;
 import app.commons.UrlRegister;
 import app.model.Transaction;
 import app.model.transferData.AcquirerInfo;
+import app.model.transferData.CardInfo;
 import app.model.transferData.MerchantPaymentRequest;
 import app.model.transferData.PaymentCardInfo;
 import app.model.transferData.PaymentInstructions;
@@ -103,7 +104,8 @@ public class PaymentService {
 		transactionAuthRequest = new TransactionAuthenticationRequest();
 		
 		transactionAuthRequest.setAcquirerInfo(transaction.getAcquirerInfo());
-		transactionAuthRequest.setCardInfo(paymentCardDetails);
+		CardInfo cardInfo = mapToCardInfo(paymentCardDetails);
+		transactionAuthRequest.setCardInfo(cardInfo);
 
 		if (transaction.getMerchantRequestData() != null)
 			transactionAuthRequest.setTransactionAmount(transaction.getMerchantRequestData().getAmount());
@@ -213,6 +215,21 @@ public class PaymentService {
 		logger.info(transactionResults.toString());
 		return transactionResults;
 
+	}
+	
+	
+	private CardInfo mapToCardInfo(PaymentCardInfo paymentCardInfo)
+	{
+		CardInfo cardInfo = new CardInfo();
+		String expirationDateString = paymentCardInfo.getExpirationMonth().toString()+"\\"+paymentCardInfo.getExpirationYear().toString();
+		String cardholder = paymentCardInfo.getCardHolderName()+paymentCardInfo.getCardHolderSurname();
+		
+		cardInfo.setExpirationDate(expirationDateString);
+		cardInfo.setHolderName(cardholder);
+		cardInfo.setPan(cardInfo.getPan());
+		cardInfo.setSecurityCode(cardInfo.getSecurityCode());
+		
+		return cardInfo;
 	}
 
 }

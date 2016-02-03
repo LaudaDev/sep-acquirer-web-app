@@ -1,48 +1,78 @@
 package app.model.transferData;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class PaymentCardInfo {
 
-	@NotNull(message = "error.pan.notnull")
-	@Size(min = 10, max = 10, message = "error.pan.size")
-	private String pan;
+	@NotNull(message = "error.creditCard.notnull")
+	private String creditCard;
 
-	@NotNull(message = "error.securityCode.notnull")
-	private Integer securityCode;
+	@NotNull(message = "error.cardNumber.notnull")
+	@Size(min = 10, max = 10, message = "error.pan.size")
+	private String cardNumber;
+
+	@NotNull(message = "error.expirationMonth.notnull")
+	private Integer expirationMonth;
+
+	@NotNull(message = "error.expirationYear.notnull")
+	private Integer expirationYear;
 
 	@NotNull(message = "error.cardHolderName.notnull")
-	private String holderName;
+	private String cardHolderName;
 
-	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
-	@NotNull(message = "error.expirationDate.notnull")
-	private Date expirationDate;
+	@NotNull(message = "error.cardHolderSurname.notnull")
+	private String cardHolderSurname;
 
+	private Integer securityCode;
 
 	public PaymentCardInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public PaymentCardInfo(String pan, Integer securityCode, String cardHolderName, Date expirationDate) {
+	public PaymentCardInfo(String creditCard, String cardNumber, Integer expirationMonth, Integer expirationYear,
+			String cardHolderName, String cardHolderSurname, Integer securityCode) {
 		super();
-		this.pan = pan;
+		this.creditCard = creditCard;
+		this.cardNumber = cardNumber;
+		this.expirationMonth = expirationMonth;
+		this.expirationYear = expirationYear;
+		this.cardHolderName = cardHolderName;
+		this.cardHolderSurname = cardHolderSurname;
 		this.securityCode = securityCode;
-		this.holderName = cardHolderName;
-		this.expirationDate = expirationDate;
 	}
 
-	public String getPan() {
-		return pan;
+	public String getCreditCard() {
+		return creditCard;
 	}
 
-	public void setPan(String pan) {
-		this.pan = pan;
+	public void setCreditCard(String creditCard) {
+		this.creditCard = creditCard;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public Integer getExpirationMonth() {
+		return expirationMonth;
+	}
+
+	public void setExpirationMonth(Integer expirationMonth) {
+		this.expirationMonth = expirationMonth;
+	}
+
+	public Integer getExpirationYear() {
+		return expirationYear;
+	}
+
+	public void setExpirationYear(Integer expirationYear) {
+		this.expirationYear = expirationYear;
 	}
 
 	public Integer getSecurityCode() {
@@ -54,26 +84,26 @@ public class PaymentCardInfo {
 	}
 
 	public String getCardHolderName() {
-		return holderName;
+		return cardHolderName;
 	}
 
 	public void setCardHolderName(String cardHolderName) {
-		this.holderName = cardHolderName;
+		this.cardHolderName = cardHolderName;
 	}
 
-	public Date getExpirationDate() {
-		return expirationDate;
+	public String getCardHolderSurname() {
+		return cardHolderSurname;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
+	public void setCardHolderSurname(String cardHolderSurname) {
+		this.cardHolderSurname = cardHolderSurname;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "PaymentCardDetails [pan=" + pan + ", securityCode=" + securityCode + ", cardHolderName="
-				+ holderName + ", expirationDate=" + expirationDate+"]";
+		return "PaymentCardInfo [creditCard=" + creditCard + ", cardNumber=" + cardNumber + ", expirationMonth="
+				+ expirationMonth + ", expirationYear=" + expirationYear + ", cardHolderName=" + cardHolderName
+				+ ", cardHolderSurname=" + cardHolderSurname + ", securityCode=" + securityCode + "]";
 	}
 
 }

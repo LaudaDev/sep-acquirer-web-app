@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class TransactionAuthenticationRequest {
 	
 	@NotNull(message = "error.paymentCardDetails.notnull")
-	private PaymentCardInfo cardInfo;
+	private CardInfo cardInfo;
 
 	@NotNull(message = "error.acquirerInfo.notnull")
 	private AcquirerInfo acquirerInfo;
@@ -21,7 +21,7 @@ public class TransactionAuthenticationRequest {
 	}
 
 
-	public TransactionAuthenticationRequest(PaymentCardInfo cardInfo, AcquirerInfo acquirerInfo,
+	public TransactionAuthenticationRequest(CardInfo cardInfo, AcquirerInfo acquirerInfo,
 			BigDecimal transactionAmount) {
 		super();
 		this.cardInfo = cardInfo;
@@ -39,12 +39,12 @@ public class TransactionAuthenticationRequest {
 	}
 
 
-	public PaymentCardInfo getCardInfo() {
+	public CardInfo getCardInfo() {
 		return cardInfo;
 	}
 
 
-	public void setCardInfo(PaymentCardInfo cardInfo) {
+	public void setCardInfo(CardInfo cardInfo) {
 		this.cardInfo = cardInfo;
 	}
 
