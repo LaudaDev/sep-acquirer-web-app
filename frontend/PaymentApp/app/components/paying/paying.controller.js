@@ -31,7 +31,12 @@
     }
 
     function payedDone(){
-      pc.buyService.save({paymentID: $stateParams.paymentID},pc.payment,onSuccess);
+      pc.buyService.save({paymentID: $stateParams.paymentID},pc.payment,onSuccess,onError);
+    }
+
+    function onError(){
+      console.log("Doslo je do errora prilkom transakcije");
+      $window.location.href = "http://localhost:8081/#/error/";
     }
 
     function onSuccess(){
