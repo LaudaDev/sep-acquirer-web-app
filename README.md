@@ -38,10 +38,13 @@ Spring Boot & MongoDB
 	HTTP: POST
 	
 		 {
-		 	 "pan": "1111111111111111",
-		 	 "securityCode": "111",
-		 	 "holderName": "Card 1",
-		 	 "expirationDate": "11/17"
+		 	  "creditCard": "Visa",
+			  "cardNumber": "1234567890123456",
+			  "expirationMonth": "1",
+			  "expirationYear": "15",
+			  "cardholderName": "name",
+			  "cardholderSurname": "surname",
+			  "securityCode":"123"
 		        
 		  }  
 		 
