@@ -4,14 +4,17 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class IssuerInfo {
 
 	@NotNull(message = "error.issuerOrderId.notnull")
 	private Integer orderId;
 
-	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+	@JsonFormat(
+			shape = JsonFormat.Shape.STRING, 
+			pattern = "dd.MM.yyyy HH:mm:ss", 
+			timezone = "CET")
 	@NotNull(message = "error.issuerTimestamp.notnull")
 	private Date timestamp;
 

@@ -157,8 +157,8 @@ public class PaymentService {
 			bankResponse = restTemplate.postForObject(UrlRegister.ACQUIRER_BANK_URL.toString(), transactionAuthRequest,
 					TransactionResponseFromAcquirer.class);
 		} catch (RestClientException e) {
-
-			logger.error(e.getStackTrace().toString());
+			logger.error(e.getMessage());
+			throw e;
 		}
 
 		return bankResponse;
@@ -221,14 +221,15 @@ public class PaymentService {
 	private CardInfo mapToCardInfo(PaymentCardInfo paymentCardInfo)
 	{
 		CardInfo cardInfo = new CardInfo();
-		String expirationDateString = paymentCardInfo.getExpirationMonth().toString()+"\\"+paymentCardInfo.getExpirationYear().toString();
-		String cardholder = paymentCardInfo.getCardHolderName()+paymentCardInfo.getCardHolderSurname();
+		String expirationDateString = paymentCardInfo.getExpirationMonth().toString()+"/"+paymentCardInfo.getExpirationYear().toString();
+		String cardholder = paymentCardInfo.getCardholderName()+paymentCardInfo.getCardholderName();
 		
 		cardInfo.setExpirationDate(expirationDateString);
 		cardInfo.setHolderName(cardholder);
-		cardInfo.setPan(cardInfo.getPan());
-		cardInfo.setSecurityCode(cardInfo.getSecurityCode());
+		cardInfo.setPan(paymentCardInfo.getCardNumber());
+		cardInfo.setSecurityCode(paymentCardInfo.getSecurityCode());
 		
+		logger.info(cardInfo.toString());
 		return cardInfo;
 	}
 

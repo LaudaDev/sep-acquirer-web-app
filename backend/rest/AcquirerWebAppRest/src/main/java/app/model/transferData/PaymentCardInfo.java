@@ -19,10 +19,10 @@ public class PaymentCardInfo {
 	private Integer expirationYear;
 
 	@NotNull(message = "error.cardHolderName.notnull")
-	private String cardHolderName;
+	private String cardholderName;
 
 	@NotNull(message = "error.cardHolderSurname.notnull")
-	private String cardHolderSurname;
+	private String cardholderSurname;
 
 	private Integer securityCode;
 
@@ -38,8 +38,8 @@ public class PaymentCardInfo {
 		this.cardNumber = cardNumber;
 		this.expirationMonth = expirationMonth;
 		this.expirationYear = expirationYear;
-		this.cardHolderName = cardHolderName;
-		this.cardHolderSurname = cardHolderSurname;
+		this.cardholderName = cardHolderName;
+		this.cardholderSurname = cardHolderSurname;
 		this.securityCode = securityCode;
 	}
 
@@ -83,27 +83,27 @@ public class PaymentCardInfo {
 		this.securityCode = securityCode;
 	}
 
-	public String getCardHolderName() {
-		return cardHolderName;
+	public String getCardholderName() {
+		return cardholderName;
 	}
 
-	public void setCardHolderName(String cardHolderName) {
-		this.cardHolderName = cardHolderName;
+	public void setCardholderName(String cardholderName) {
+		this.cardholderName = cardholderName;
 	}
 
-	public String getCardHolderSurname() {
-		return cardHolderSurname;
+	public String getCardholderSurname() {
+		return cardholderSurname;
 	}
 
-	public void setCardHolderSurname(String cardHolderSurname) {
-		this.cardHolderSurname = cardHolderSurname;
+	public void setCardholderSurname(String cardholderSurname) {
+		this.cardholderSurname = cardholderSurname;
 	}
 
 	@Override
 	public String toString() {
 		return "PaymentCardInfo [creditCard=" + creditCard + ", cardNumber=" + cardNumber + ", expirationMonth="
-				+ expirationMonth + ", expirationYear=" + expirationYear + ", cardHolderName=" + cardHolderName
-				+ ", cardHolderSurname=" + cardHolderSurname + ", securityCode=" + securityCode + "]";
+				+ expirationMonth + ", expirationYear=" + expirationYear + ", cardHolderName=" + cardholderName
+				+ ", cardHolderSurname=" + cardholderSurname + ", securityCode=" + securityCode + "]";
 	}
 
 }

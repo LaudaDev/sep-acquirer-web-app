@@ -20,9 +20,6 @@ import app.services.PaymentService;
 
 @Controller
 @RequestMapping("/paying")
-
-// @CrossOrigin(origins = "http://localhost:8083")
-
 public class PaymentController {
 
 	@Autowired
