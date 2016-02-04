@@ -1,15 +1,19 @@
 package app.model.transferData;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class PaymentCardInfo {
+import app.commons.Consts;
+
+public class PaymentCard {
 
 	@NotNull(message = "error.creditCard.notnull")
 	private String creditCard;
 
 	@NotNull(message = "error.cardNumber.notnull")
-	@Size(min = 16, max = 16, message = "error.pan.size")
+	@Size(min = Consts.LENGTH_PAN, max = Consts.LENGTH_PAN, message = "error.cardNumber.size")
 	private String cardNumber;
 
 	@NotNull(message = "error.expirationMonth.notnull")
@@ -19,19 +23,23 @@ public class PaymentCardInfo {
 	private Integer expirationYear;
 
 	@NotNull(message = "error.cardHolderName.notnull")
+	@Size(min = Consts.MIN_HOLDER_NAME, max = Consts.MAX_HOLDER_NAME, message = "error.cardholderName.size")
 	private String cardholderName;
 
 	@NotNull(message = "error.cardHolderSurname.notnull")
+	@Size(min = Consts.MIN_HOLDER_NAME, max = Consts.MAX_HOLDER_NAME, message = "error.cardholderSurname.size")
 	private String cardholderSurname;
 
+	@Min(value = Consts.MIN_SECURITY_CODE)
+	@Max(value = Consts.MAX_SECURITY_CODE)
 	private Integer securityCode;
 
-	public PaymentCardInfo() {
+	public PaymentCard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public PaymentCardInfo(String creditCard, String cardNumber, Integer expirationMonth, Integer expirationYear,
+	public PaymentCard(String creditCard, String cardNumber, Integer expirationMonth, Integer expirationYear,
 			String cardHolderName, String cardHolderSurname, Integer securityCode) {
 		super();
 		this.creditCard = creditCard;

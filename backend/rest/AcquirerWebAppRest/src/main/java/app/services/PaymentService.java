@@ -20,7 +20,7 @@ import app.model.Transaction;
 import app.model.transferData.AcquirerInfo;
 import app.model.transferData.CardInfo;
 import app.model.transferData.MerchantPaymentRequest;
-import app.model.transferData.PaymentCardInfo;
+import app.model.transferData.PaymentCard;
 import app.model.transferData.PaymentInstructions;
 import app.model.transferData.SharingAmount;
 import app.model.transferData.TransactionAuthenticationRequest;
@@ -103,7 +103,7 @@ public class PaymentService {
 		return instructions;
 	}
 
-	public URI sendAuthenticationRequest(PaymentCardInfo paymentCardDetails, int paymentID) {
+	public URI sendAuthenticationRequest(PaymentCard paymentCardDetails, int paymentID) {
 
 		logger.info("Payment card details " + paymentCardDetails.toString());
 
@@ -234,7 +234,7 @@ public class PaymentService {
 
 	}
 
-	private CardInfo mapToCardInfo(PaymentCardInfo paymentCardInfo) {
+	private CardInfo mapToCardInfo(PaymentCard paymentCardInfo) {
 		CardInfo cardInfo = new CardInfo();
 
 		String expirationDateString = paymentCardInfo.getExpirationMonth().toString() + "/"
