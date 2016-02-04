@@ -6,15 +6,14 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import app.commons.Consts;
+
 public class AcquirerInfo {
 
 	@NotNull(message = "error.acquirerOrderId.notnull")
 	private Integer orderId;
 
-	@JsonFormat(
-			shape = JsonFormat.Shape.STRING, 
-			pattern = "dd.MM.yyyy HH:mm:ss", 
-			timezone = "CET")
+	@JsonFormat(pattern = Consts.datePattern)
 	@NotNull(message = "error.acquirerTimestamp.notnull")
 	private Date timestamp;
 

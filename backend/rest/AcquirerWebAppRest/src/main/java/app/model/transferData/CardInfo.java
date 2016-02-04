@@ -53,4 +53,6 @@ public class CardInfo {
 	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}	
+	
+	
 }
