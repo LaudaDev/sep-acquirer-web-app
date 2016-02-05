@@ -239,7 +239,7 @@ public class PaymentService {
 
 		String expirationDateString = paymentCardInfo.getExpirationMonth().toString() + "/"
 				+ paymentCardInfo.getExpirationYear().toString();
-		String cardholder = paymentCardInfo.getCardholderName() + paymentCardInfo.getCardholderName();
+		String cardholder = paymentCardInfo.getCardholderName() +" "+ paymentCardInfo.getCardholderSurname();
 
 		cardInfo.setExpirationDate(expirationDateString);
 		cardInfo.setHolderName(cardholder);
