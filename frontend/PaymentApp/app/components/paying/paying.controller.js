@@ -27,7 +27,20 @@
     }
 
     function backToInsurance() {
-      $window.location.href = "http://localhost:8081/#/home/"
+      $window.location.href = "http://localhost:8081/#/home/";
+    }
+
+    function payedDone(){
+      pc.buyService.save({paymentID: $stateParams.paymentID},pc.payment,onSuccess,onError);
+    }
+
+    function onError(){
+      console.log("Doslo je do errora prilkom transakcije");
+      $window.location.href = "http://localhost:8081/#/error/";
+    }
+
+    function onSuccess(){
+      console.log("Uspesno placanje");
     }
 
     function payedDone(){

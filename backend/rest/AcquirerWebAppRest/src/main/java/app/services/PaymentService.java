@@ -1,6 +1,9 @@
 package app.services;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -10,12 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import app.commons.Consts;
 import app.commons.CustomIdGenerator;
 import app.commons.UrlRegister;
 import app.model.Transaction;
 import app.model.transferData.AcquirerInfo;
+import app.model.transferData.CardInfo;
 import app.model.transferData.MerchantPaymentRequest;
-import app.model.transferData.PaymentCardInfo;
+import app.model.transferData.PaymentCard;
 import app.model.transferData.PaymentInstructions;
 import app.model.transferData.SharingAmount;
 import app.model.transferData.TransactionAuthenticationRequest;
@@ -23,7 +28,6 @@ import app.model.transferData.TransactionResponseForMerchant;
 import app.model.transferData.TransactionResponseFromAcquirer;
 import app.model.transferData.TransactionStatus;
 import app.services.exceptions.BadRequestException;
-import app.services.exceptions.CustomRestClientException;
 
 @Service
 public class PaymentService {
@@ -42,84 +46,95 @@ public class PaymentService {
 		PaymentInstructions instructions;
 		int paymentId;
 		int acquirerOrderId;
-		Date acquirerTimestamp;
+		Date acquirerTimestamp = null;
 		Transaction transaction;
 
-		// if request not valid -> redirect to error URL!
-		// check merchant id and password
 		if (bindingResult.hasErrors()) {
-			System.out.println("binding result error");
+
+			logger.info("Payment request was not valid.");
+
 			if (request.getErrorUrl() != null) {
-				// redirekcija na error url
+
+				instructions = new PaymentInstructions();
+				instructions.setPaymentURL(request.getErrorUrl());
+				logger.info("Returned error url");
+
 			} else {
-				throw new BadRequestException("Merchant paymet request - validation errors");
+				throw new BadRequestException("Paymet request - validation errors");
+			}
+		} else {
+
+			if (!merchantService.isMerchantRegistered(request.getMerchantId(), request.getMerchatPassword())) {
+
+				logger.info("Merchant not registered");
+				instructions = new PaymentInstructions();
+				instructions.setPaymentURL(request.getErrorUrl());
+
+			} else {
+
+				logger.info("Payment request " + request.toString());
+
+				instructions = new PaymentInstructions();
+				paymentId = CustomIdGenerator.generatePaymentId();
+
+				instructions.setPaymentURL(UrlRegister.PAYMENT_URL);
+				instructions.setPaymentID(paymentId);
+
+				transaction = new Transaction();
+				transaction.setMerchantRequestData(request);
+				transaction.setPaymentId(paymentId);
+				acquirerOrderId = CustomIdGenerator.generateAcquirerOrderId();
+			
+				SimpleDateFormat format = new SimpleDateFormat(Consts.datePattern);
+				Date unparsedDate = new Date();
+				try {
+					acquirerTimestamp = format.parse(format.format(unparsedDate));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				transaction.setAcquirerInfo(new AcquirerInfo(acquirerOrderId, acquirerTimestamp));
+				transactionService.save(transaction);
+
 			}
 		}
 
-		if (request.getMerchantInfo() == null)
-			throw new BadRequestException("Merchant info is null");
-
-		if (!merchantService.isMerchantRegistered(request.getMerchantId(), request.getMerchatPassword())) {
-			// redirekcija ->error url
-		}
-
-		logger.info("Merchant payment request");
-		logger.info(request.toString());
-
-		instructions = new PaymentInstructions();
-		paymentId = CustomIdGenerator.generatePaymentId();
-
-		instructions.setPaymentURL(UrlRegister.PAYMENT_URL);
-		instructions.setPaymentID(paymentId);
-
-		transaction = new Transaction();
-		transaction.setMerchantRequestData(request);
-		transaction.setPaymentId(paymentId);
-		acquirerOrderId = CustomIdGenerator.generateAcquirerOrderId();
-		acquirerTimestamp = new Date();
-		transaction.setAcquirerInfo(new AcquirerInfo(acquirerOrderId, acquirerTimestamp));
-		transactionService.save(transaction);
-		logger.info("payment instruction for merchant");
-		logger.info(instructions.toString());
+		logger.info("Payment instruction for merchant " + instructions.toString());
 		return instructions;
 	}
 
-	public URI sendAuthenticationRequest(PaymentCardInfo paymentCardDetails, int paymentID) {
+	public URI sendAuthenticationRequest(PaymentCard paymentCardDetails, int paymentID) {
 
-		logger.info("Payment card details");
-		logger.info(paymentCardDetails.toString());
-		logger.info("Creating authentication request");
+		logger.info("Payment card details " + paymentCardDetails.toString());
 
 		TransactionAuthenticationRequest transactionAuthRequest;
 		TransactionResponseFromAcquirer bankResponse;
 		TransactionResponseForMerchant responseForMerchant;
+		URI retURL = null;
 
 		Transaction transaction = transactionService.findByPaymentId(paymentID);
 
-		if(transaction == null)
-		{
-			logger.info("trnsaction is null");
-		}
 		transactionAuthRequest = new TransactionAuthenticationRequest();
-		
 		transactionAuthRequest.setAcquirerInfo(transaction.getAcquirerInfo());
-		transactionAuthRequest.setCardInfo(paymentCardDetails);
+
+		CardInfo cardInfo = mapToCardInfo(paymentCardDetails);
+		transactionAuthRequest.setCardInfo(cardInfo);
 
 		if (transaction.getMerchantRequestData() != null)
 			transactionAuthRequest.setTransactionAmount(transaction.getMerchantRequestData().getAmount());
 
-		logger.info("Request sent to acquirer bank");
-		logger.info(transactionAuthRequest.toString());
+		logger.info("Request sent to acquirer bank " + transactionAuthRequest.toString());
 
 		bankResponse = postForTransactionResult(transactionAuthRequest);
 
 		if (bankResponse == null) {
-			logger.error("There was an error communicating with the acquirer bank server.Bank response is null.");
+		
+			logger.error("There was an error communicating with the acquirer bank server.BankResponse is null.");
 			responseForMerchant = createTransactionResponseWithServerError();
+		
 		} else {
 
-			logger.info("Bank response - transaction result");
-			logger.info(bankResponse.toString());
+			logger.info("Bank response - transaction result: " + bankResponse.toString());
 
 			transaction = saveTransactionResult(bankResponse);
 			if (transaction == null) {
@@ -130,15 +145,24 @@ public class PaymentService {
 			}
 		}
 
-		return sendTransactionResults(responseForMerchant);
+		retURL = sendTransactionResults(responseForMerchant);
+
+		if (retURL == null) {
+			try {
+				retURL = transaction.getMerchantRequestData().getErrorUrl().toURI();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return retURL;
 	}
 
 	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse) {
 		Transaction transaction = null;
 
 		if (bankResponse.getAcquirerInfo() != null) {
-			transaction = transactionService.findByOrderIdAndTimestamp(
-					bankResponse.getAcquirerInfo().getOrderId(),
+			transaction = transactionService.findByOrderIdAndTimestamp(bankResponse.getAcquirerInfo().getOrderId(),
 					bankResponse.getAcquirerInfo().getTimestamp());
 			transaction.setTransactionStatus(bankResponse.getTransactionStatus());
 			transaction.setIssuerInfo(bankResponse.getIssuerInfo());
@@ -155,8 +179,8 @@ public class PaymentService {
 			bankResponse = restTemplate.postForObject(UrlRegister.ACQUIRER_BANK_URL.toString(), transactionAuthRequest,
 					TransactionResponseFromAcquirer.class);
 		} catch (RestClientException e) {
-
-			logger.error(e.getStackTrace().toString());
+			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
 
 		return bankResponse;
@@ -165,14 +189,10 @@ public class PaymentService {
 	public URI sendTransactionResults(TransactionResponseForMerchant transactionResults) {
 
 		URI merchantResponse = restTemplate.postForLocation(UrlRegister.MERCHANT_URL.toString(), transactionResults);
-		// promijeniti da u slucaju greske vraca predefinisani error url
 		if (merchantResponse == null) {
-			throw new CustomRestClientException(
-					"There was an error communicating with the merchant server.URL is null.");
-
+			logger.info("There was an error communicating with the merchant server.URL is null.");
 		}
-		logger.info("Merchant response - URL");
-		logger.info(merchantResponse.toString());
+
 		return merchantResponse;
 
 	}
@@ -209,10 +229,25 @@ public class PaymentService {
 		transactionResults.setAcquirerInfo(transaction.getAcquirerInfo());
 		transactionResults.setPaymentId(transaction.getPaymentId());
 
-		logger.info("Transaction result for merchant");
-		logger.info(transactionResults.toString());
+		logger.info("Transaction result for merchant " + transactionResults.toString());
 		return transactionResults;
 
+	}
+
+	private CardInfo mapToCardInfo(PaymentCard paymentCardInfo) {
+		CardInfo cardInfo = new CardInfo();
+
+		String expirationDateString = paymentCardInfo.getExpirationMonth().toString() + "/"
+				+ paymentCardInfo.getExpirationYear().toString();
+		String cardholder = paymentCardInfo.getCardholderName() +" "+ paymentCardInfo.getCardholderSurname();
+
+		cardInfo.setExpirationDate(expirationDateString);
+		cardInfo.setHolderName(cardholder);
+		cardInfo.setPan(paymentCardInfo.getCardNumber());
+		cardInfo.setSecurityCode(paymentCardInfo.getSecurityCode());
+
+		logger.info(cardInfo.toString());
+		return cardInfo;
 	}
 
 }

@@ -9,7 +9,7 @@ public class Application {
  public static void main(String[] args) throws Exception {
 	 SpringApplication.run(new Object[] { Application.class }, args);
  }
-	/* static {
+	 static {
 		    //for localhost testing only
 		    javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
 		    new javax.net.ssl.HostnameVerifier(){
@@ -23,5 +23,5 @@ public class Application {
 		        }
 		    });
 	 }
-	 */
+	 
 }

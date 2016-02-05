@@ -1,4 +1,4 @@
-use paymentDatabase;
+use paymentDatabase
 db.merchant.drop();
 db.transaction.drop();
 

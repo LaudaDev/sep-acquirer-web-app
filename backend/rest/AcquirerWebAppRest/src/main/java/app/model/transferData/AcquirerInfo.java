@@ -4,14 +4,16 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import app.commons.Consts;
 
 public class AcquirerInfo {
 
 	@NotNull(message = "error.acquirerOrderId.notnull")
 	private Integer orderId;
 
-	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+	@JsonFormat(pattern = Consts.datePattern)
 	@NotNull(message = "error.acquirerTimestamp.notnull")
 	private Date timestamp;
 

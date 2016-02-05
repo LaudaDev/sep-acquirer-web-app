@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 public class MerchantPaymentRequest {
 
+	
 	@NotNull(message = "error.merchantId.notnull")
 	@Size(min = 5, max = 30, message = "error.merchantId.size")
 	private String merchantId;
