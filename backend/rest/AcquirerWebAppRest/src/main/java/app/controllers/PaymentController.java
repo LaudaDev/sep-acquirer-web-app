@@ -1,7 +1,5 @@
 package app.controllers;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +14,7 @@ import app.model.transferData.MerchantPaymentRequest;
 import app.model.transferData.PaymentCard;
 import app.model.transferData.PaymentInstructions;
 import app.model.transferData.SharingAmount;
+import app.model.transferData.UrlWrapper;
 import app.services.PaymentService;
 
 @Controller
@@ -34,11 +33,13 @@ public class PaymentController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/buy/{paymentID}")
 	@ResponseBody
-	public String payInsurance(@PathVariable("paymentID") Integer paymentID,
+	public UrlWrapper payInsurance(@PathVariable("paymentID") Integer paymentID,
 			@Validated @RequestBody PaymentCard paymentCardDetails) {
 		System.out.println("paying post");
-		URI resultURI = paymentService.sendAuthenticationRequest(paymentCardDetails, paymentID);
-		return "redirect:" + resultURI;
+		
+		UrlWrapper resultURI = paymentService.sendAuthenticationRequest(paymentCardDetails, paymentID);
+		System.out.println("redirection on :"+resultURI);
+		return resultURI;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{paymentID}")

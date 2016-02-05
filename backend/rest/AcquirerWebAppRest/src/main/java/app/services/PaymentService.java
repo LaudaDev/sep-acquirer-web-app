@@ -27,6 +27,7 @@ import app.model.transferData.TransactionAuthenticationRequest;
 import app.model.transferData.TransactionResponseForMerchant;
 import app.model.transferData.TransactionResponseFromAcquirer;
 import app.model.transferData.TransactionStatus;
+import app.model.transferData.UrlWrapper;
 import app.services.exceptions.BadRequestException;
 
 @Service
@@ -103,10 +104,11 @@ public class PaymentService {
 		return instructions;
 	}
 
-	public URI sendAuthenticationRequest(PaymentCard paymentCardDetails, int paymentID) {
+	public UrlWrapper sendAuthenticationRequest(PaymentCard paymentCardDetails, int paymentID) {
 
 		logger.info("Payment card details " + paymentCardDetails.toString());
 
+		UrlWrapper response= new UrlWrapper();
 		TransactionAuthenticationRequest transactionAuthRequest;
 		TransactionResponseFromAcquirer bankResponse;
 		TransactionResponseForMerchant responseForMerchant;
@@ -155,7 +157,8 @@ public class PaymentService {
 			}
 		}
 
-		return retURL;
+		response.setResultURI(retURL);
+		return response;
 	}
 
 	public Transaction saveTransactionResult(TransactionResponseFromAcquirer bankResponse) {

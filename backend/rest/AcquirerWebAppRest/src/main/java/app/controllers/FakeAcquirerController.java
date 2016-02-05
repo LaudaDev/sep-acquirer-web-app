@@ -29,7 +29,7 @@ public class FakeAcquirerController {
 		System.out.println("date in format json"+request.getAcquirerInfo().getTimestamp());
 	
 		TransactionResponseFromAcquirer response = new TransactionResponseFromAcquirer();
-		response.setTransactionStatus(new TransactionStatus("03", "success"));
+		response.setTransactionStatus(new TransactionStatus("00", "success"));
 		//response.setTransactionStatus(new TransactionStatus("05", "failed"));
 		response.setAcquirerInfo(request.getAcquirerInfo());
 		response.setIssuerInfo(new IssuerInfo(1,new Date()));
