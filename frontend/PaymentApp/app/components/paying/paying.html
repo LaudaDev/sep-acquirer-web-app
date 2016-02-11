@@ -32,7 +32,7 @@
                   <div class="col-sm-5">
                     <div class="btn-group">
                       <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'master'">MasterCard</label>
-                      <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'visa'">VisaElectron</label>
+                      <label id="visa" class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'visa'">VisaElectron</label>
                       <label class="btn btn-info" name="inputCard" required ng-model="pc.payment.creditCard" uib-btn-radio="'maestro'">Maestro</label>
                     </div>
                     <div ng-messages="pc.stateForm.inputCard.$error" ng-show="pc.stateForm.inputCard.$touched">
@@ -117,7 +117,7 @@
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-6">
 
-                    <button type="submit" class="btn btn-warning btn-large" ng-click="pc.validatePayment()">
+                    <button id="pay" type="submit" class="btn btn-warning btn-large" ng-click="pc.validatePayment()">
                       {{'MAIN.PAY_NOW'|translate}}
                     </button>
                   </div>
